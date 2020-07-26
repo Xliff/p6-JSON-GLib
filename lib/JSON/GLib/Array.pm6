@@ -120,11 +120,11 @@ class JSON::GLib::Array {
     return Nil unless $el;
     return $el if $glist && $raw;
 
-    $el = $el but GLib::Roles::ListData[JsonNode];
+    $el = GLib::GList.new($el) but GLib::Roles::ListData[JsonNode];
     return $el if $glist;
 
     $raw ?? $el.Array
-         !! $el.Array.map({ JSON::GLib::Node.new($_) });
+         !! $el.Array.map({ JSON::GLib::Node.new($_) }).Array;
   }
 
   method get_int_element (Int() $index) {
