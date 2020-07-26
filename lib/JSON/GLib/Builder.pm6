@@ -6,7 +6,7 @@ use JSON::GLib::Raw::Builder;
 use GLib::Roles::Object;
 
 class JSON::GLib {
-  has JsonBuilder $!jb;
+  has JsonBuilder $!jb is implemetor;
 
   submethod BUILD (:$builder) {
     $!jb = $builder;
