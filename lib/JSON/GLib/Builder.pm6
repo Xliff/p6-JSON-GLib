@@ -6,15 +6,13 @@ use JSON::GLib::Raw::Builder;
 use GLib::Roles::Object;
 
 class JSON::GLib::Builder {
+  also does GLib::Roles::Object;
+  
   has JsonBuilder $!jb is implemetor;
 
-  submethod BUILD (:$builder) {
-    $!jb = $builder;
-  }
+  submethod BUILD ( :builder(:$!jb) ) { }
 
-  submethod TWEAK {
-    self.roleInit-Object;
-  }
+  submethod TWEAK { self.roleInit-Object }
 
   method JSON::GLib::Raw::Structs::JsonBuilder
   { $!jb }

@@ -11,9 +11,11 @@ use GLib::Roles::Object;
 class JSON::GLib::Generator {
   also does GLib::Roles::Object;
 
-  has JsonGenerator $!jg;
+  has JsonGenerator $!jg is implementor;
 
   submethod BUILD ( :generator( :$!jg ) ) { }
+
+  submethod TWEAK { self.roleInit-Object }
 
   method JSON::GLib::Definitions::JsonGenerator
   { $!jg }
