@@ -21,7 +21,10 @@ class JSON::GLib::Generator {
   { $!jg }
 
 
-  method new {
+  multi method new (JsonGenerator) {
+    $generator ?? self.bless( :$generator ) !! Nil;
+  }
+  multi method new {
     my $generator = json_generator_new();
 
     $generator ?? self.bless( :$generator ) !! Nil;

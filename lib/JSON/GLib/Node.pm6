@@ -5,10 +5,13 @@ use JSON::GLib::ObjectNodeArray;
 
 class JSON::GLib::Node {
   has JsonNode $!jn;
-  
+
   submethod BUILD ( :node(:$!jn) ) { }
 
-  method new {
+  multi method new (JsonNode $node) {
+    $node ?? self.bless(:$node) !! Nil;
+  }
+  multi method new {
     my $node = json_node_new();
 
     $node ?? self.bless(:$node) !! Nil;

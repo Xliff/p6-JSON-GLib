@@ -10,9 +10,12 @@ use JSON::GLib::Node;
 class JSON::GLib::Object {
   has JsonObject $!jo;
 
-  submethod BUILD (:object( :$!jo )) {  }
+  submethod BUILD ( :object(:$!jo) ) {  }
 
-  method new {
+  multi method new (JsonObject $object) {
+    $object ?? self.bless( :$object ) !! Nil;
+  }
+  multi method new {
     my $object = json_object_new();
 
     $object ?? self.bless( :$object ) !! Nil;

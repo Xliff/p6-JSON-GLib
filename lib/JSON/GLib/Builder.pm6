@@ -7,7 +7,7 @@ use GLib::Roles::Object;
 
 class JSON::GLib::Builder {
   also does GLib::Roles::Object;
-  
+
   has JsonBuilder $!jb is implemetor;
 
   submethod BUILD ( :builder(:$!jb) ) { }
@@ -17,7 +17,10 @@ class JSON::GLib::Builder {
   method JSON::GLib::Raw::Structs::JsonBuilder
   { $!jb }
 
-  method new {
+  multi method new (JsonBuilder $builder) {
+    $builder ?? self.bless( :$builder ) !! Nil;
+  }
+  multi method new {
     my $builder = my $jb = json_builder_new();
 
     $builder ?? self.bless( :$builder ) !! Nil;

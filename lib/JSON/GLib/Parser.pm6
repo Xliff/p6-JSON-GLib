@@ -22,6 +22,9 @@ class JSON::GLib::Parser {
   method JSON::GLib::Definitions::JsonParser
   { $!jp }
 
+  method new (JsonParser $parser) {
+    $parser ?? self.bless( :$parser ) !! Nil;
+  }
   method new {
     my $parser = json_parser_new();
 

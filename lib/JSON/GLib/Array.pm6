@@ -11,7 +11,10 @@ use GLib::Roles::ListData;
 class JSON::GLib::Array {
   has JsonArray $!ja;
 
-  method new () {
+  multi method new (JsonArray $array) {
+    $array ?? self.bless( :$array ) !! Nil;
+  }
+  multi method new {
     my $array = json_array_new();
 
     $array ?? self.bless( :$array ) !! Nil;
