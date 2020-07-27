@@ -1,0 +1,37 @@
+{
+    "depends": [
+        "p6-GLib",
+        "p6-GIO",
+    ],
+    "description": "Perl6 library bindings for GNOME's JSON-GLib library",
+    "version": "r0.1",
+    "meta-version": "0",
+    "license": "GPL-3.0",
+    "source-url": "https://github.com/Xliff/p6-JSON-GLib.git",
+    "provides": {
+      "JSON::GLib::Raw::Definitions"       :  "lib/JSON/GLib/Raw/Definitions.pm6"      ,
+      "JSON::GLib::Raw::Generator"         :  "lib/JSON/GLib/Raw/Generator.pm6"        ,
+      "JSON::GLib::Raw::ObjectNodeArray"   :  "lib/JSON/GLib/Raw/ObjectNodeArray.pm6"  ,
+      "JSON::GLib::Raw::Parser"            :  "lib/JSON/GLib/Raw/Parser.pm6"           ,
+      "JSON::GLib::Raw::Path"              :  "lib/JSON/GLib/Raw/Path.pm6"             ,
+      "JSON::GLib::Raw::Reader"            :  "lib/JSON/GLib/Raw/Reader.pm6"           ,
+      "JSON::GLib::Raw::Exports"           :  "lib/JSON/GLib/Raw/Exports.pm6"          ,
+      "JSON::GLib::Raw::Types"             :  "lib/JSON/GLib/Raw/Types.pm6"            ,
+      "JSON::GLib::Roles::Signals::Parser" :  "lib/JSON/GLib/Roles/Signals/Parser.pm6" ,
+      "JSON::GLib::Node"                   :  "lib/JSON/GLib/Node.pm6"                 ,
+      "JSON::GLib::Parser"                 :  "lib/JSON/GLib/Parser.pm6"               ,
+      "JSON::GLib::Path"                   :  "lib/JSON/GLib/Path.pm6"                 ,
+      "JSON::GLib::Raw::Builder"           :  "lib/JSON/GLib/Raw/Builder.pm6"          ,
+      "JSON::GLib::Reader"                 :  "lib/JSON/GLib/Reader.pm6"               ,
+      "JSON::GLib::Array"                  :  "lib/JSON/GLib/Array.pm6"                ,
+      "JSON::GLib::Builder"                :  "lib/JSON/GLib/Builder.pm6"              ,
+      "JSON::GLib::Generator"              :  "lib/JSON/GLib/Generator.pm6"            ,
+      "JSON::GLib::Object"                 :  "lib/JSON/GLib/Object.pm6"
+    },
+    "name": "p6-JSON-GLib",
+    "perl": "6.c",
+    "test-depends": ["Test::META"],
+    "build-depends": [ ],
+    "support": {"source": null},
+    "authors": ["clifton.wood@gmail.com"]
+}
