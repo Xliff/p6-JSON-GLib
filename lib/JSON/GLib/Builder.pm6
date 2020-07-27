@@ -5,7 +5,7 @@ use JSON::GLib::Raw::Builder;
 
 use GLib::Roles::Object;
 
-class JSON::GLib {
+class JSON::GLib::Builder {
   has JsonBuilder $!jb is implemetor;
 
   submethod BUILD (:$builder) {
@@ -29,6 +29,22 @@ class JSON::GLib {
     my $builder = my $jb = json_builder_new_immutable();
 
     $builder ?? self.bless( :$builder ) !! Nil;
+  }
+
+  # Type: gboolean
+  method immutable is rw  {
+    my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
+    Proxy.new(
+      FETCH => sub ($) {
+        $gv = GLib::Value.new(
+          self.prop_get('immutable', $gv)
+        );
+        $gv.boolean;
+      },
+      STORE => -> $, Int() $val is copy {
+        warn 'immutable is a construct-only attribute'
+      }
+    );
   }
 
   method add_boolean_value (Int() $value, :$raw = False) {
