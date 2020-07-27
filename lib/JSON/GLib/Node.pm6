@@ -4,15 +4,9 @@ use JSON::GLib::Raw::Types;
 use JSON::GLib::ObjectNodeArray;
 
 class JSON::GLib::Node {
-  has JsonNode $!jn is implementor;
-
-  submethod BUILD (:$node) {
-    $!jn = $node;
-  }
-
-  submethod TWEAK {
-    self.roleInit-Object;
-  }
+  has JsonNode $!jn;
+  
+  submethod BUILD ( :node(:$!jn) ) { }
 
   method new {
     my $node = json_node_new();
