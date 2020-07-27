@@ -2,7 +2,10 @@ use v6.c;
 
 use NativeCall;
 
-use GLib::Roles::Definitions;
+use GLib::Raw::Definitions;
+use GLib::Raw::Structs;
+use GIO::Raw::Definitions;
+use GIO::Raw::Structs;
 use JSON::GLib::Raw::Definitions;
 
 ### /usr/include/json-glib-1.0/json-glib/json-generator.h

@@ -8,7 +8,7 @@ use GLib::Roles::Object;
 class JSON::GLib::Builder {
   also does GLib::Roles::Object;
 
-  has JsonBuilder $!jb is implemetor;
+  has JsonBuilder $!jb is implementor;
 
   submethod BUILD ( :builder(:$!jb) ) { }
 
@@ -54,7 +54,7 @@ class JSON::GLib::Builder {
     my $jb = json_builder_add_boolean_value($!jb, $v);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
@@ -62,21 +62,21 @@ class JSON::GLib::Builder {
   method add_double_value (Num() $value, :$raw = False) {
     my gdouble $v = $value;
 
-    my $jb = my $jb = json_builder_add_double_value($!jb, $v);
+    my $jb = json_builder_add_double_value($!jb, $v);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
 
-  method add_int_value (Int() $value) {
+  method add_int_value (Int() $value, :$raw = False) {
     my gint64 $v = $value;
 
     my $jb = json_builder_add_int_value($!jb, $v);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
@@ -85,16 +85,16 @@ class JSON::GLib::Builder {
     my $jb = json_builder_add_null_value($!jb);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
 
   method add_string_value (Str() $value, :$raw = False) {
-    my $jb = json_builder_add_string_value($!jb, $v);
+    my $jb = json_builder_add_string_value($!jb, $value);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
@@ -103,7 +103,7 @@ class JSON::GLib::Builder {
     my $jb = json_builder_add_value($!jb, $node);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
@@ -112,7 +112,7 @@ class JSON::GLib::Builder {
     my $jb = json_builder_begin_array($!jb);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
@@ -121,7 +121,7 @@ class JSON::GLib::Builder {
     my $jb = json_builder_begin_object($!jb);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
@@ -130,7 +130,7 @@ class JSON::GLib::Builder {
     my $jb = json_builder_end_array($!jb);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
@@ -139,7 +139,7 @@ class JSON::GLib::Builder {
     my $jb = json_builder_end_object($!jb);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
@@ -148,7 +148,7 @@ class JSON::GLib::Builder {
     my $jb = json_builder_get_root($!jb);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }
@@ -167,7 +167,7 @@ class JSON::GLib::Builder {
     my $jb = json_builder_set_member_name($!jb, $member_name);
 
     $jb ??
-      ( $raw ?? $jb !! $self )
+      ( $raw ?? $jb !! self )
       !!
       Nil;
   }

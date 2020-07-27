@@ -1,5 +1,7 @@
 use v6.c;
 
+use NativeCall;
+
 use JSON::GLib::Raw::Types;
 use JSON::GLib::Raw::ObjectNodeArray;
 
@@ -21,7 +23,7 @@ class JSON::GLib::Array {
   }
 
   method sized_new (Int() $n_elements) {
-    my $guint $n = $n_elements;
+    my guint $n = $n_elements;
     my $array = json_array_sized_new($n);
 
     $array ?? self.bless( :$array ) !! Nil;
@@ -48,7 +50,7 @@ class JSON::GLib::Array {
   }
 
   method add_int_element (Int() $value) {
-    myt gint64 $v = $value;
+    my gint64 $v = $value;
 
     json_array_add_int_element($!ja, $v);
   }
@@ -69,7 +71,7 @@ class JSON::GLib::Array {
     my $n = json_array_dup_element($!ja, $index);
 
     $n ??
-      ( $raw ?? $n !! JSON:GLib::Node.new($n) )
+      ( $raw ?? $n !! JSON::GLib::Node.new($n) )
       !!
       Nil;
   }
@@ -82,7 +84,7 @@ class JSON::GLib::Array {
     json_array_foreach_element($!ja, &func, $data);
   }
 
-  method get_array_element (Int() $index) {
+  method get_array_element (Int() $index, :$raw = False) {
     my guint $i = $index;
 
     my $a = json_array_get_array_element($!ja, $i);
@@ -115,7 +117,7 @@ class JSON::GLib::Array {
       Nil;
   }
 
-  method get_elements (:$glist = raw, :$raw = False) {
+  method get_elements (:$glist = False, :$raw = False) {
     my $el = json_array_get_elements($!ja);
 
     return Nil unless $el;

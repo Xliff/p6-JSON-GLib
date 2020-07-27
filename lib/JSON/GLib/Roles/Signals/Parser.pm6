@@ -1,5 +1,7 @@
 use v6.c;
 
+use NativeCall;
+
 use JSON::GLib::Raw::Types;
 
 role JSON::GLib::Roles::Signals::Parser {

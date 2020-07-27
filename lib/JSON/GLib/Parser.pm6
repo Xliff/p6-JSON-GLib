@@ -22,10 +22,10 @@ class JSON::GLib::Parser {
   method JSON::GLib::Definitions::JsonParser
   { $!jp }
 
-  method new (JsonParser $parser) {
+  multi method new (JsonParser $parser) {
     $parser ?? self.bless( :$parser ) !! Nil;
   }
-  method new {
+  multi method new {
     my $parser = json_parser_new();
 
     $parser ?? self.bless( :$parser ) !! Nil;
@@ -107,7 +107,7 @@ class JSON::GLib::Parser {
     self.connect($!jp, 'parse-start');
   }
 
-  method error_quark (JSON::Parser::U: ) {
+  method error_quark (JSON::GLib::Parser:U: ) {
     json_parser_error_quark();
   }
 
@@ -129,7 +129,7 @@ class JSON::GLib::Parser {
   }
 
   method get_type {
-    state ($n, $t);l
+    state ($n, $t);
 
     unstable_get_type( self.^name, &json_parser_get_type, $n, $t );
   }
@@ -157,7 +157,7 @@ class JSON::GLib::Parser {
   ) {
     clear_error;
     my $rv = so json_parser_load_from_file($!jp, $filename, $error);
-    set_error($erro);
+    set_error($error);
     $rv;
   }
 
@@ -185,7 +185,7 @@ class JSON::GLib::Parser {
     &callback,
     gpointer $user_data = gpointer
   ) {
-    samewith(stream, GCancellable, &callback, $user_data);
+    samewith($stream, GCancellable, &callback, $user_data);
   }
   multi method load_from_stream_async (
     GInputStream() $stream,

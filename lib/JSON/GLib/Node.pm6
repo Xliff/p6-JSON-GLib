@@ -1,7 +1,7 @@
 use v6.c;
 
 use JSON::GLib::Raw::Types;
-use JSON::GLib::ObjectNodeArray;
+use JSON::GLib::Raw::ObjectNodeArray;
 
 class JSON::GLib::Node {
   has JsonNode $!jn;
@@ -11,8 +11,9 @@ class JSON::GLib::Node {
   multi method new (JsonNode $node) {
     $node ?? self.bless(:$node) !! Nil;
   }
-  multi method new {
-    my $node = json_node_new();
+  multi method new (Int() $type) {
+    my JsonNodeType $t = $type;
+    my $node = json_node_new($t);
 
     $node ?? self.bless(:$node) !! Nil;
   }
@@ -27,7 +28,7 @@ class JSON::GLib::Node {
       Nil;
   }
 
-  method init_array (JsonArray() $array) {
+  method init_array (JsonArray() $array, :$raw = False) {
     my $n = json_node_init_array($!jn, $array);
 
     $n ??
@@ -47,7 +48,7 @@ class JSON::GLib::Node {
   }
 
   method init_double (Num() $value, :$raw = False) {
-    my gdouble $value = $v;
+    my gdouble $v = $value;
     my $n = json_node_init_double($!jn, $v);
 
     $n ??
@@ -66,7 +67,7 @@ class JSON::GLib::Node {
       Nil;
   }
 
-  method init_null {
+  method init_null (:$raw = False) {
     my $n = json_node_init_null($!jn);
 
     $n ??
@@ -95,8 +96,8 @@ class JSON::GLib::Node {
 
   method array (:$raw = False) is rw {
     Proxy.new:
-      FETCH => -> $                { self.get_array(:$raw) },
-      STORE => -> $, JsonAray() \a { self.set_array(a)     };
+      FETCH => -> $                 { self.get_array(:$raw) },
+      STORE => -> $, JsonArray() \a { self.set_array(a)     };
   }
 
   method boolean is rw {
@@ -144,8 +145,8 @@ class JSON::GLib::Node {
       STORE => -> $, GValue() \v { self.set_value(v) };
   }
 
-  method alloc (JSON::LGLib::Node:U: JsonNode $node) {
-    json_node_alloc($node);
+  method alloc (JSON::GLib::Node:U: ) {
+    json_node_alloc();
   }
 
   method copy (:$raw = False) {
@@ -230,7 +231,7 @@ class JSON::GLib::Node {
     my $p = json_node_get_parent($!jn);
 
     $p ??
-      ( $raw ?? $n !! JSON::GLib::Node.new($p) )
+      ( $raw ?? $p !! JSON::GLib::Node.new($p) )
       !!
       Nil;
   }

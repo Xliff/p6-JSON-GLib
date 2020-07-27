@@ -1,7 +1,9 @@
 use v6.c;
 
-use GLib::Raw::Types;
+use NativeCall;
+
 use JSON::GLib::Raw::Types;
+use JSON::GLib::Raw::Generator;
 
 use GLib::String;
 use JSON::GLib::Node;
@@ -21,7 +23,7 @@ class JSON::GLib::Generator {
   { $!jg }
 
 
-  multi method new (JsonGenerator) {
+  multi method new (JsonGenerator $generator) {
     $generator ?? self.bless( :$generator ) !! Nil;
   }
   multi method new {

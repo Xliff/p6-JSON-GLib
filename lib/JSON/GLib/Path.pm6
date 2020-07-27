@@ -1,5 +1,7 @@
 use v6.c;
 
+use NativeCall;
+
 use JSON::GLib::Raw::Types;
 use JSON::GLib::Raw::Path;
 
@@ -32,7 +34,7 @@ class JSON::GLib::Path {
     $rv;
   }
 
-  method error_quark (JSON::GLib:Path:U: ) {
+  method error_quark (JSON::GLib::Path:U: ) {
     json_path_error_quark();
   }
 
@@ -52,12 +54,13 @@ class JSON::GLib::Path {
   }
 
   method query (
+    Str() $expr,
     JsonNode() $root,
     CArray[Pointer[GError]] $error = gerror,
     :$raw = False
   ) {
     clear_error;
-    my $n = json_path_query($!jp, $root, $error);
+    my $n = json_path_query($expr, $root, $error);
     set_error($error);
 
     $n ??

@@ -56,7 +56,7 @@ sub json_array_dup_element (JsonArray $array, guint $index)
   is export
 { * }
 
-sub json_array_equal (gconstpointer $a, gconstpointer $b)
+sub json_array_equal (JsonArray $a, JsonArray $b)
   returns uint32
   is native(json-glib)
   is export
@@ -137,7 +137,7 @@ sub json_array_get_type ()
   is export
 { * }
 
-sub json_array_hash (gconstpointer $key)
+sub json_array_hash (JsonArray $key)
   returns guint
   is native(json-glib)
   is export
@@ -212,7 +212,7 @@ sub json_node_dup_string (JsonNode $node)
   is export
 { * }
 
-sub json_node_equal (gconstpointer $a, gconstpointer $b)
+sub json_node_equal (JsonNode $a, JsonNode $b)
   returns uint32
   is native(json-glib)
   is export
@@ -288,7 +288,7 @@ sub json_node_get_value_type (JsonNode $node)
   is export
 { * }
 
-sub json_node_hash (gconstpointer $key)
+sub json_node_hash (JsonNode $key)
   returns guint
   is native(json-glib)
   is export
@@ -447,7 +447,7 @@ sub json_object_dup_member (JsonObject $object, Str $member_name)
   is export
 { * }
 
-sub json_object_equal (gconstpointer $a, gconstpointer $b)
+sub json_object_equal (JsonObject $a, JsonObject $b)
   returns uint32
   is native(json-glib)
   is export
@@ -540,7 +540,7 @@ sub json_object_has_member (JsonObject $object, Str $member_name)
   is export
 { * }
 
-sub json_object_hash (gconstpointer $key)
+sub json_object_hash (JsonObject $key)
   returns guint
   is native(json-glib)
   is export
@@ -662,7 +662,7 @@ sub json_object_unref (JsonObject $object)
   is export
 { * }
 
-sub json_string_compare (gconstpointer $a, gconstpointer $b)
+sub json_string_compare (Str $a, Str $b)
   returns gint
   is native(json-glib)
   is export
@@ -674,7 +674,7 @@ sub json_string_equal (gconstpointer $a, gconstpointer $b)
   is export
 { * }
 
-sub json_string_hash (gconstpointer $key)
+sub json_string_hash (Str $key)
   returns guint
   is native(json-glib)
   is export

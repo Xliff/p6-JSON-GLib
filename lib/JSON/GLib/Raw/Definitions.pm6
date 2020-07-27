@@ -8,11 +8,18 @@ use GLib::Roles::Pointers;
 
 unit package JSON::GLib::Raw::Definitions;
 
+my constant forced = 2;
+
 constant json-glib is export = 'json-glib-1.0',v0;
 
-class JsonObject is repr<CPointer> is export does GLib::Roles::Pointers { }
-class JsonNode   is repr<CPointer> is export does GLib::Roles::Pointers { }
-class JsonArray  is repr<CPointer> is export does GLib::Roles::Pointers { }
+class JsonArray     is repr<CPointer> is export does GLib::Roles::Pointers { }
+class JsonBuilder   is repr<CPointer> is export does GLib::Roles::Pointers { }
+class JsonGenerator is repr<CPointer> is export does GLib::Roles::Pointers { }
+class JsonNode      is repr<CPointer> is export does GLib::Roles::Pointers { }
+class JsonObject    is repr<CPointer> is export does GLib::Roles::Pointers { }
+class JsonParser    is repr<CPointer> is export does GLib::Roles::Pointers { }
+class JsonPath      is repr<CPointer> is export does GLib::Roles::Pointers { }
+class JsonReader    is repr<CPointer> is export does GLib::Roles::Pointers { }
 
 constant JsonNodeType is export := guint32;
 our enum JsonNodeTypeEnum is export <

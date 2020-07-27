@@ -26,8 +26,8 @@ class JSON::GLib::Reader {
   multi method new (JsonReader $reader) {
     $reader ?? self.bless( :$reader ) !! Nil;
   }
-  multi method new {
-    my $reader = json_reader_new();
+  multi method new (JsonNode() $node) {
+    my $reader = json_reader_new($node);
 
     $reader ?? self.bless( :$reader ) !! Nil;
   }
@@ -151,7 +151,7 @@ class JSON::GLib::Reader {
   }
 
   method get_type is also<get-type> {
-    state ($n, $t)
+    state ($n, $t);
 
     unstable_get_type( self.^name, &json_reader_get_type, $n, $t );
   }
@@ -159,7 +159,7 @@ class JSON::GLib::Reader {
   method get_value (:$raw = False) is also<get-value> {
     my $n = json_reader_get_value($!jr);
 
-    $n
+    $n ??
       ( $raw ?? $n !! JSON::GLib::Node.new($n) )
       !!
       Nil;
