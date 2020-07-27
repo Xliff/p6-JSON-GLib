@@ -148,7 +148,7 @@ class JSON::GLib::Object {
     json_object_ref($!ja);
   }
 
-  method remove_member (Str $member_name) {
+  method remove_member (Str() $member_name) {
     json_object_remove_member($!ja, $member_name);
   }
 
@@ -156,35 +156,41 @@ class JSON::GLib::Object {
     json_object_seal($!ja);
   }
 
-  method set_array_member (Str $member_name, JsonArray $value) {
+  method set_array_member (Str() $member_name, JsonArray() $value) {
     json_object_set_array_member($!ja, $member_name, $value);
   }
 
-  method set_boolean_member (Str $member_name, gboolean $value) {
-    json_object_set_boolean_member($!ja, $member_name, $value);
+  method set_boolean_member (Str() $member_name, Int() $value) {
+    my gboolean $v = $value.so.Int;
+
+    json_object_set_boolean_member($!ja, $member_name, $v);
   }
 
-  method set_double_member (Str $member_name, gdouble $value) {
-    json_object_set_double_member($!ja, $member_name, $value);
+  method set_double_member (Str() $member_name, Num() $value) {
+    my gdouble $v = $value;
+
+    json_object_set_double_member($!ja, $member_name, $v);
   }
 
-  method set_int_member (Str $member_name, gint64 $value) {
-    json_object_set_int_member($!ja, $member_name, $value);
+  method set_int_member (Str() $member_name, Int() $value) {
+    my gint64 $v = $value;
+
+    json_object_set_int_member($!ja, $member_name, $v);
   }
 
-  method set_member (Str $member_name, JsonNode $node) {
+  method set_member (Str() $member_name, JsonNode() $node) {
     json_object_set_member($!ja, $member_name, $node);
   }
 
-  method set_null_member (Str $member_name) {
+  method set_null_member (Str() $member_name) {
     json_object_set_null_member($!ja, $member_name);
   }
 
-  method set_object_member (Str $member_name, JsonObject $value) {
+  method set_object_member (Str() $member_name, JsonObject() $value) {
     json_object_set_object_member($!ja, $member_name, $value);
   }
 
-  method set_string_member (Str $member_name, Str $value) {
+  method set_string_member (Str() $member_name, Str() $value) {
     json_object_set_string_member($!ja, $member_name, $value);
   }
 
