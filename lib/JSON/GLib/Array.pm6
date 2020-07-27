@@ -5,13 +5,11 @@ use JSON::GLib::Raw::ObjectNodeArray;
 
 use JSON::GLib::Node;
 
-use GLib::Roles::Object;
 use GLib::Roles::ListData;
 
+# BOXED
 class JSON::GLib::Array {
-  also does GLib::Roles::Object;
-
-  has JsonArray $!ja is implementor;
+  has JsonArray $!ja;
 
   method new () {
     my $array = json_array_new();

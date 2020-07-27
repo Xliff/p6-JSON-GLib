@@ -6,11 +6,8 @@ use JSON::GLib::Raw::ObjectNodeArray;
 use JSON::GLib::Array;
 use JSON::GLib::Node;
 
-also does GLib::Roles::Object;
-
+# BOXED
 class JSON::GLib::Object {
-  also does GLib::Roles::Object;
-
   has JsonObject $!jo;
 
   submethod BUILD (:object( :$!jo )) {  }
