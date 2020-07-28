@@ -64,7 +64,7 @@ sub json_array_equal (JsonArray $a, JsonArray $b)
 
 sub json_array_foreach_element (
   JsonArray $array,
-  &func (JsonArray, Str, JsonNode, gpointer),
+  &func (JsonArray, guint, JsonNode, gpointer),
   gpointer $data
 )
   is native(json-glib)
