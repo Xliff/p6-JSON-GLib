@@ -1,5 +1,7 @@
 use v6.c;
 
+use Method::Also;
+
 use NativeCall;
 
 use JSON::GLib::Raw::Types;
@@ -14,6 +16,10 @@ class JSON::GLib::Object {
 
   submethod BUILD ( :object(:$!jo) ) {  }
 
+  method JSON::GLib::Raw::Definitions::JsonObject
+    is also<JsonObject>
+  { $!jo }
+
   multi method new (JsonObject $object) {
     $object ?? self.bless( :$object ) !! Nil;
   }
@@ -26,11 +32,13 @@ class JSON::GLib::Object {
   method JSON::GLib::Definitions::JsonObject
   { $!jo }
 
-  method add_member (Str() $member_name, JsonNode() $node) {
+  method add_member (Str() $member_name, JsonNode() $node)
+    is also<add-member>
+  {
     json_object_add_member($!jo, $member_name, $node);
   }
 
-  method dup_member (Str() $member_name, :$raw = False) {
+  method dup_member (Str() $member_name, :$raw = False) is also<dup-member> {
     my $n = json_object_dup_member($!jo, $member_name);
 
     $n ??
@@ -43,11 +51,15 @@ class JSON::GLib::Object {
     so json_object_equal($!jo, $b);
   }
 
-  method foreach_member (&func, gpointer $data = gpointer) {
+  method foreach_member (&func, gpointer $data = gpointer)
+    is also<foreach-member>
+  {
     json_object_foreach_member($!jo, &func, $data);
   }
 
-  method get_array_member (Str() $member_name, :$raw = False) {
+  method get_array_member (Str() $member_name, :$raw = False)
+    is also<get-array-member>
+  {
     my $a = json_object_get_array_member($!jo, $member_name);
 
     $raw ??
@@ -56,19 +68,19 @@ class JSON::GLib::Object {
       Nil;
   }
 
-  method get_boolean_member (Str() $member_name) {
+  method get_boolean_member (Str() $member_name) is also<get-boolean-member> {
     so json_object_get_boolean_member($!jo, $member_name);
   }
 
-  method get_double_member (Str $member_name) {
+  method get_double_member (Str $member_name) is also<get-double-member> {
     json_object_get_double_member($!jo, $member_name);
   }
 
-  method get_int_member (Str $member_name) {
+  method get_int_member (Str $member_name) is also<get-int-member> {
     json_object_get_int_member($!jo, $member_name);
   }
 
-  method get_member (Str() $member_name, :$raw = False) {
+  method get_member (Str() $member_name, :$raw = False) is also<get-member> {
     my $n = json_object_get_member($!jo, $member_name);
 
     $n ??
@@ -77,7 +89,7 @@ class JSON::GLib::Object {
       Nil;
   }
 
-  method get_members (:$glist = False, :$raw = False) {
+  method get_members (:$glist = False, :$raw = False) is also<get-members> {
     my $ml = json_object_get_members($!jo);
 
     return Nil unless $ml;
@@ -90,11 +102,13 @@ class JSON::GLib::Object {
          !! $ml.Array.map({ JSON::GLib::Node.new($_) }).Array;
   }
 
-  method get_null_member (Str() $member_name) {
+  method get_null_member (Str() $member_name) is also<get-null-member> {
     so json_object_get_null_member($!jo, $member_name);
   }
 
-  method get_object_member (Str() $member_name, :$raw = False) {
+  method get_object_member (Str() $member_name, :$raw = False)
+    is also<get-object-member>
+  {
     my $o = json_object_get_object_member($!jo, $member_name);
 
     $o ??
@@ -103,21 +117,21 @@ class JSON::GLib::Object {
       Nil;
   }
 
-  method get_size {
+  method get_size is also<get-size> {
     json_object_get_size($!jo);
   }
 
-  method get_string_member (Str() $member_name) {
+  method get_string_member (Str() $member_name) is also<get-string-member> {
     json_object_get_string_member($!jo, $member_name);
   }
 
-  method get_type {
+  method get_type is also<get-type> {
     state ($n, $t);
 
     unstable_get_type(self.^name, &json_object_get_type, $n, $t );
   }
 
-  method get_values (:$glist = False, :$raw = False) {
+  method get_values (:$glist = False, :$raw = False) is also<get-values> {
     my $nl = json_object_get_values($!jo);
 
     return Nil unless $nl;
@@ -130,7 +144,7 @@ class JSON::GLib::Object {
          !! $nl.Array.map({ JSON::GLib::Node.new($_) }).Array;
   }
 
-  method has_member (Str() $member_name) {
+  method has_member (Str() $member_name) is also<has-member> {
     so json_object_has_member($!jo, $member_name);
   }
 
@@ -138,11 +152,11 @@ class JSON::GLib::Object {
     json_object_hash($!jo);
   }
 
-  method is_immutable {
+  method is_immutable is also<is-immutable> {
     so json_object_is_immutable($!jo);
   }
 
-  method iter_init {
+  method iter_init is also<iter-init> {
     JSON::GLib::Object::Iter.init(self);
   }
 
@@ -150,7 +164,7 @@ class JSON::GLib::Object {
     json_object_ref($!jo);
   }
 
-  method remove_member (Str() $member_name) {
+  method remove_member (Str() $member_name) is also<remove-member> {
     json_object_remove_member($!jo, $member_name);
   }
 
@@ -158,41 +172,55 @@ class JSON::GLib::Object {
     json_object_seal($!jo);
   }
 
-  method set_array_member (Str() $member_name, JsonArray() $value) {
+  method set_array_member (Str() $member_name, JsonArray() $value)
+    is also<set-array-member>
+  {
     json_object_set_array_member($!jo, $member_name, $value);
   }
 
-  method set_boolean_member (Str() $member_name, Int() $value) {
+  method set_boolean_member (Str() $member_name, Int() $value)
+    is also<set-boolean-member>
+  {
     my gboolean $v = $value.so.Int;
 
     json_object_set_boolean_member($!jo, $member_name, $v);
   }
 
-  method set_double_member (Str() $member_name, Num() $value) {
+  method set_double_member (Str() $member_name, Num() $value)
+    is also<set-double-member>
+  {
     my gdouble $v = $value;
 
     json_object_set_double_member($!jo, $member_name, $v);
   }
 
-  method set_int_member (Str() $member_name, Int() $value) {
+  method set_int_member (Str() $member_name, Int() $value)
+    is also<set-int-member>
+  {
     my gint64 $v = $value;
 
     json_object_set_int_member($!jo, $member_name, $v);
   }
 
-  method set_member (Str() $member_name, JsonNode() $node) {
+  method set_member (Str() $member_name, JsonNode() $node)
+    is also<set-member>
+  {
     json_object_set_member($!jo, $member_name, $node);
   }
 
-  method set_null_member (Str() $member_name) {
+  method set_null_member (Str() $member_name) is also<set-null-member> {
     json_object_set_null_member($!jo, $member_name);
   }
 
-  method set_object_member (Str() $member_name, JsonObject() $value) {
+  method set_object_member (Str() $member_name, JsonObject() $value)
+    is also<set-object-member>
+  {
     json_object_set_object_member($!jo, $member_name, $value);
   }
 
-  method set_string_member (Str() $member_name, Str() $value) {
+  method set_string_member (Str() $member_name, Str() $value)
+    is also<set-string-member>
+  {
     json_object_set_string_member($!jo, $member_name, $value);
   }
 
@@ -249,3 +277,6 @@ class JSON::GLib::ObjectIter {
   }
 
 }
+
+our subset JsonObjectOrObj is export of Mu
+  where JsonObject | JSON::GLib::Object;
