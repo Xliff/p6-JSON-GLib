@@ -1,5 +1,7 @@
 use v6.c;
 
+use Method::Also;
+
 use NativeCall;
 
 use JSON::GLib::Raw::Types;
@@ -38,7 +40,7 @@ class JSON::GLib::Generator {
       STORE => -> $, Int() \i { self.set_indent(i) };
   }
 
-  method indent-char is rw {
+  method indent-char is rw is also<indent_char> {
     Proxy.new:
       FETCH => -> $           { self.get_indent_char    },
       STORE => -> $, Int() \i { self.set_indent_char(i) };
@@ -56,19 +58,19 @@ class JSON::GLib::Generator {
       STORE => -> $, JsonNode() $j { self.set_root($j)     };
   }
 
-  method get_indent {
+  method get_indent is also<get-indent> {
     json_generator_get_indent($!jg);
   }
 
-  method get_indent_char {
+  method get_indent_char is also<get-indent-char> {
     json_generator_get_indent_char($!jg);
   }
 
-  method get_pretty {
+  method get_pretty is also<get-pretty> {
     json_generator_get_pretty($!jg);
   }
 
-  method get_root (:$raw = False) {
+  method get_root (:$raw = False) is also<get-root> {
     my $n = json_generator_get_root($!jg);
 
     $n ??
@@ -77,35 +79,36 @@ class JSON::GLib::Generator {
       Nil;
   }
 
-  method get_type {
+  method get_type is also<get-type> {
     state ($n, $t);
 
     unstable_get_type( self.^name, &json_generator_get_type, $n, $t );
   }
 
-  method set_indent (Int() $indent_level) {
+  method set_indent (Int() $indent_level) is also<set-indent> {
     my guint $i = $indent_level;
 
     json_generator_set_indent($!jg, $i);
   }
 
-  method set_indent_char (Int() $indent_char) {
+  method set_indent_char (Int() $indent_char) is also<set-indent-char> {
     my gunichar $i = $indent_char;
 
     json_generator_set_indent_char($!jg, $i);
   }
 
-  method set_pretty (Int() $is_pretty) {
+  method set_pretty (Int() $is_pretty) is also<set-pretty> {
     my gboolean $i = $is_pretty.so.Int;
 
     json_generator_set_pretty($!jg, $i);
   }
 
-  method set_root (JsonNode() $node) {
+  method set_root (JsonNode() $node) is also<set-root> {
     json_generator_set_root($!jg, $node);
   }
 
   proto method to_data (|)
+      is also<to-data>
   { * }
 
   multi method to_data (:$all = False) {
@@ -119,14 +122,16 @@ class JSON::GLib::Generator {
     $all.not ?? $d !! ($d, $length);
   }
 
-  method to_file (Str() $filename, CArray[Pointer[GError]] $error = gerror) {
+  method to_file (Str() $filename, CArray[Pointer[GError]] $error = gerror)
+    is also<to-file>
+  {
     clear_error;
     my $rv = json_generator_to_file($!jg, $filename, $error);
     set_error($error);
     $rv;
   }
 
-  method to_gstring (GString() $string, :$raw = False) {
+  method to_gstring (GString() $string, :$raw = False) is also<to-gstring> {
     # I can hear the jokes, already....
     my $gs = json_generator_to_gstring($!jg, $string);
 
@@ -140,7 +145,9 @@ class JSON::GLib::Generator {
     GOutputStream() $stream,
     GCancellable() $cancellable    = GCancellable,
     CArray[Pointer[GError]] $error = gerror
-  ) {
+  )
+    is also<to-stream>
+  {
     clear_error;
     my $rv = so json_generator_to_stream($!jg, $stream, $cancellable, $error);
     set_error($error);
