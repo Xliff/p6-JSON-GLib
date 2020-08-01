@@ -202,10 +202,49 @@ class JSON::GLib::Object {
     json_object_set_int_member($!jo, $member_name, $v);
   }
 
-  method set_member (Str() $member_name, JsonNode() $node)
+  proto method set_member (|)
     is also<set-member>
-  {
-    json_object_set_member($!jo, $member_name, $node);
+  { * }
+
+  multi method set_member (Str() $member-name, JsonArrayOrObj $v) {
+    self.set_array_member(
+      $member-name,
+      $v ~~ JSON::GLib::Array ?? $v.JsonArray !! $v
+    );
+  }
+  multi method set_member (Str() $member-name, Bool $v) {
+    self.set_boolean_member($member-name, $v);
+  }
+  multi method set_member (Str() $member-name, Int $v) {
+    self.set_int_member($member-name, $v);
+  }
+  multi method set_member (Str() $member-name, Rat $v) {
+    self.set_double_member($member-name, $v.Num);
+  }
+  multi method set_member (Str() $member-name, Num $v) {
+    self.set_double_member($member-name, $v);
+  }
+  multi method set_member (
+    Str() $member-name,
+    $v where * ~~ ::('JsonObjectOrObj')
+  ) {
+    self.set_object_member(
+      $member-name,
+      $v ~~ JSON::GLib::Object ?? $v.JsonObject !! $v
+    );
+  }
+  multi method set_member (Str() $member-name, Str $v) {
+    self.set_string_member($member-name, $v);
+  }
+  multi method set_member (Str() $member-name, Nil) {
+    self.set_null_member($member-name);
+  }
+  multi method set_member (Str() $member_name, JsonNodeOrObj $node) {
+    json_object_set_member(
+      $!jo,
+      $member_name,
+      $node ~~ JSON::GLib::Node ?? $node.JsonNode !! $node
+    );
   }
 
   method set_null_member (Str() $member_name) is also<set-null-member> {
