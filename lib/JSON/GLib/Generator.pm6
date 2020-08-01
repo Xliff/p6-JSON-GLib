@@ -42,8 +42,8 @@ class JSON::GLib::Generator {
 
   method indent-char is rw is also<indent_char> {
     Proxy.new:
-      FETCH => -> $           { self.get_indent_char    },
-      STORE => -> $, Int() \i { self.set_indent_char(i) };
+      FETCH => -> $                              { self.get_indent_char        },
+      STORE => -> $, Str() \i where i.chars == 1 { self.set_indent_char(i.ord) };
   }
 
   method pretty is rw {
@@ -93,7 +93,7 @@ class JSON::GLib::Generator {
 
   method set_indent_char (Int() $indent_char) is also<set-indent-char> {
     my gunichar $i = $indent_char;
-
+    
     json_generator_set_indent_char($!jg, $i);
   }
 
@@ -108,7 +108,10 @@ class JSON::GLib::Generator {
   }
 
   proto method to_data (|)
-      is also<to-data>
+      is also<
+        to-data
+        Str
+      >
   { * }
 
   multi method to_data (:$all = False) {
