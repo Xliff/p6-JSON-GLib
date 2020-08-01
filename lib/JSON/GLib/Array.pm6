@@ -48,6 +48,9 @@ class JSON::GLib::Array does Positional {
     $array ?? self.bless( :$array ) !! Nil;
   }
 
+  multi method new (Int() $n_elements, :size(:$sized) is required) {
+    self.sized_new($n_elements);
+  }
   method sized_new (Int() $n_elements) is also<sized-new> {
     my guint $n = $n_elements;
     my $array = json_array_sized_new($n);
@@ -56,7 +59,9 @@ class JSON::GLib::Array does Positional {
   }
 
   multi method add (JsonArrayOrObj $value) {
-    self.add_array_element($value);
+    self.add_array_element(
+      $value ~~ JSON::GLib::Array ?? $value.JsonArray !! $value
+    );
   }
   method add_array_element (JsonArray() $value = JsonArray)
     is also<add-array-element>
@@ -83,7 +88,7 @@ class JSON::GLib::Array does Positional {
   }
 
   multi method add (JsonNodeOrObj $v) {
-    self.add_element($v);
+    self.add_element($v ~~ JSON::GLib::Node ?? $v.JsonNode !! $v);
   }
   method add_element (JsonNode() $node) is also<add-element> {
     json_array_add_element($!ja, $node);
@@ -109,7 +114,9 @@ class JSON::GLib::Array does Positional {
   }
 
   multi method add ( $v where * ~~ ::('JsonObjectOrObj') ) {
-    self.add_object_element($v);
+    self.add_object_element(
+      $v ~~ ::('JSON::GLib::Object') ?? $v.JsonObject !! $v
+    );
   }
   method add_object_element (JsonObject() $value = JsonObject)
     is also<add-object-element>
