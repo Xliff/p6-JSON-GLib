@@ -86,7 +86,7 @@ subtest 'Reset', {
     $g.root = $b.root;
     my $d =  $g.to-data;
 
-    is $d, $reset-object, 'Serialized data is equivalent to string definition';
+    is $d, $reset-object, "Serialized data is equivalent to string definition 1";
 
     $b.reset.begin-array.add('reset').end-array;
 
@@ -94,5 +94,5 @@ subtest 'Reset', {
     $g.root = $b.root;
     $d = $g.to-data;
 
-    is $d, $reset-array, 'Serialized data is equivalent to string definition';
+    is $d, $reset-array, "Serialized data after reset is equivalent to string definition 2";
 }
