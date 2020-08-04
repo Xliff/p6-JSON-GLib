@@ -1,5 +1,7 @@
 use v6.c;
 
+use Method::Also;
+
 use NativeCall;
 
 use JSON::GLib::Raw::Types;
@@ -25,7 +27,19 @@ class JSON::GLib::Variant {
       Nil;
   }
 
-  method deserialize_data (
+  proto method deserialize_data (|)
+      is also<deserialize-data>
+  { * }
+
+  multi method deserialize_data (
+    Str() $json,
+    Str() $signature,
+    CArray[Pointer[GError]] $error = gerror,
+    :$raw = False
+  ) {
+    samewith($json, -1, $signature, $error, :$raw);
+  }
+  multi method deserialize_data (
     Str() $json,
     Int() $length,
     Str() $signature,
@@ -55,9 +69,10 @@ class JSON::GLib::Variant {
 
 
   proto method serialize_data(|)
+    is also<serialize-data>
   { * }
 
-  multi method serialize_data (GVariant() $variant) {
+  multi method serialize_data (GVariant() $variant)  {
     samewith($variant, $);
   }
   multi method serialize_data (GVariant() $variant, $length is rw) {
