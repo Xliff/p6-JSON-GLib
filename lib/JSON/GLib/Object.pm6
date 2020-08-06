@@ -10,6 +10,62 @@ use JSON::GLib::Raw::ObjectNodeArray;
 use JSON::GLib::Array;
 use JSON::GLib::Node;
 
+class JSON::GLib::Object::Iter {
+  has JsonObjectIter $!joi;
+  has                $!last_member_name;
+
+  submethod BUILD ( :iter(:$!joi) ) { }
+
+  method new (JsonObject() $object) {
+    my $iter = JSON::GLib::Object::Iter.init($object);
+
+    $iter ?? self.bless(:$iter) !! Nil;
+  }
+
+  method JSON::GLib::Definitions::JsonObjectIter
+    is also<JsonObjectIter>
+  { $!joi }
+
+  multi method init (JSON::GLib::Object::Iter:U: JsonObject() $object) {
+    my $joi = JsonObjectIter.new;
+
+    samewith($joi, $object);
+  }
+  multi method init (
+    JSON::GLib::Object::Iter:U:
+    JsonObjectIter $iter,
+    JsonObject() $object
+  ) {
+    json_object_iter_init($iter, $object);
+    $iter;
+  }
+
+  multi method next (:$raw = False) {
+    my $rv = samewith($, $, :all, :$raw);
+
+    $rv[0] ?? $rv.skip(1) !! Nil;
+  }
+  multi method next (
+    $member-name is rw,
+    $member-node is rw,
+    :$all = False,
+    :$raw = True
+  ) {
+    my $m-name = CArray[Str].new;
+    $m-name[0] = Str;
+    my $m-node = CArray[JsonNode].new;
+    $m-node[0] = JsonNode;
+
+    my $rv = so json_object_iter_next($!joi, $m-name, $m-node);
+    ($member-name, $member-node) = ppr($m-name, $m-node);
+    $member-node = JSON::GLib::Node.new($member-node)
+      if $member-node && $raw.not;
+
+    $all.not ?? $rv !! ($rv, $member-name, $member-node);
+  }
+
+}
+
 # BOXED
 class JSON::GLib::Object {
   has JsonObject $!jo;
@@ -117,7 +173,13 @@ class JSON::GLib::Object {
       Nil;
   }
 
-  method get_size is also<get-size> {
+  method get_size
+    is also<
+      get-size
+      size
+      elems
+    >
+  {
     json_object_get_size($!jo);
   }
 
@@ -156,8 +218,13 @@ class JSON::GLib::Object {
     so json_object_is_immutable($!jo);
   }
 
-  method iter_init is also<iter-init> {
-    JSON::GLib::Object::Iter.init(self);
+  method iter_init
+    is also<
+      iter-init
+      iter
+    >
+  {
+    JSON::GLib::Object::Iter.new(self);
   }
 
   method ref {
@@ -265,54 +332,6 @@ class JSON::GLib::Object {
 
   method unref {
     json_object_unref($!jo);
-  }
-
-}
-
-class JSON::GLib::ObjectIter {
-  has JsonObjectIter $!joi;
-  has                $!last_member_name;
-
-  submethod BUILD ( :iter(:$!joi) ) { }
-
-  method new (JsonObject() $object) {
-    my $iter = self.init($object);
-
-    $iter ?? self.bless( :$iter ) !! Nil;
-  }
-
-  method JSON::GLib::Definitions::JsonObjectIter
-  { $!joi }
-
-  multi method init (JSON::GLib::ObjectIter:U: JsonObject() $object) {
-    my $joi = JsonObjectIter.new;
-
-    samewith($joi, $object);
-  }
-  multi method init (
-    JSON::GLib::ObjectIter:U:
-    JsonObjectIter $iter,
-    JsonObject() $object
-  ) {
-    json_object_iter_init($iter, $object);
-  }
-
-  multi method next (:$raw = False) {
-    samewith(Str, :$raw);
-  }
-  multi method next (Str() $member_name, :$raw = False) {
-    samewith($member_name, $, :$raw);
-  }
-  multi method next (Str() $member_name, $member_node is rw, :$raw = True) {
-    my $mn = CArray[Pointer[JsonNode]].new;
-    $mn[0] = Pointer[JsonNode];
-    $!last_member_name = $member_name if $member_name;
-
-    my $rv = so json_object_iter_next($!joi, $!last_member_name, $mn);
-    $member_node = ppr($mn);
-    $member_node = JSON::GLib::Node.new($member_node)
-      if $member_node && $raw.not;
-    $rv;
   }
 
 }
