@@ -559,8 +559,8 @@ sub json_object_iter_init (JsonObjectIter $iter, JsonObject $object)
 
 sub json_object_iter_next (
   JsonObjectIter $iter,
-  Str $member_name,
-  JsonNode $member_node
+  CArray[Str] $member_name,
+  CArray[JsonNode] $member_node
 )
   returns uint32
   is native(json-glib)
