@@ -8,7 +8,7 @@ use GLib::Roles::Pointers;
 
 unit package JSON::GLib::Raw::Definitions;
 
-my constant forced = 2;
+my constant forced = 4;
 
 constant json-glib is export = 'json-glib-1.0',v0;
 
