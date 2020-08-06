@@ -5,6 +5,12 @@ use Method::Also;
 use JSON::GLib::Raw::Types;
 use JSON::GLib::Raw::ObjectNodeArray;
 
+use GLib::Value;
+
+class X::JSON::GLib::Node::NoSetImmutable is Exception is export {
+  method message { 'Cannot alter an immutable JSON::GLib::Node' }
+}
+
 class JSON::GLib::Node {
   has JsonNode $!jn;
 
@@ -24,18 +30,22 @@ class JSON::GLib::Node {
     $node ?? self.bless(:$node) !! Nil;
   }
 
-  method init (Int() $type, :$raw = False) {
-    my JsonNodeType $t = $type;
-    my $n = json_node_init($!jn, $t);
-
-    $n ??
-      ($raw ?? $n !! self)
-      !!
-      Nil;
+  multi method new ($ar, :$array is required) {
+    self.init_array($ar // JsonArray.new);
   }
-
+  multi method new (
+    $arr,
+    :arr(:$array) is required
+  ) {
+    self.init_array(JsonArray);
+  }
   method init_array (JsonArray() $array, :$raw = False) is also<init-array> {
-    my $n = json_node_init_array($!jn, $array);
+    my $n = json_node_alloc();
+    $n = self.bless( node => $n );
+
+    return Nil unless $n;
+
+    json_node_init_array($!jn, $array);
 
     $n ??
       ($raw ?? $n !! self)
@@ -43,38 +53,80 @@ class JSON::GLib::Node {
       Nil;
   }
 
-  method init_boolean (Int() $value, :$raw = False) is also<init-boolean> {
+  multi method new(
+    $b,
+    :bool(:$boolean) is required
+  ) {
+    self.init_boolean($b);
+  }
+  method init_boolean (Int() $value, :$raw = False)
+    is also<
+      init-boolean
+      init_bool
+      init-bool
+    >
+  {
     my gboolean $v = $value.so.Int;
-    my $n = json_node_init_boolean($!jn, $v);
+    my $node = json_node_init_boolean(JSON::GLib::Node.alloc, $v);
 
-    $n ??
-      ($raw ?? $n !! self)
-      !!
-      Nil;
+    $node ?? self.bless(:$node) !! Nil;
   }
 
+  multi method new (
+    $d,
+    :dbl(:$double) is required
+  ) {
+    self.init_double($d);
+  }
   method init_double (Num() $value, :$raw = False) is also<init-double> {
     my gdouble $v = $value;
-    my $n = json_node_init_double($!jn, $v);
+    my $node = json_node_init_double($!jn, $v);
 
-    $n ??
-      ($raw ?? $n !! self)
-      !!
-      Nil;
+    $node ?? self.bless(:$node) !! Nil;
   }
 
+  multi method new (
+    $i,
+    :int(:$integer) is required
+  ) {
+    self.init_int($i);
+  }
   method init_int (Int() $value, :$raw = False) is also<init-int> {
     my gint64 $v = $value;
-    my $n = json_node_init_int($!jn, $v);
+    my $node = json_node_init_int(JSON::GLib::Node.alloc, $v);
 
-    $n ??
-      ($raw ?? $n !! self)
-      !!
-      Nil;
+    $node ?? self.bless(:$node) !! Nil;
   }
 
+  multi method new (:$null is required) {
+    self.init-null;
+  }
   method init_null (:$raw = False) is also<init-null> {
-    my $n = json_node_init_null($!jn);
+    my $node = json_node_init_null( JSON::GLib::Node.alloc );
+
+    $node ?? self.bless(:$node) !! Nil;
+  }
+
+  multi method new (
+    :object(:jsonobject(:$jo)) is required
+  ) {
+    self.init_object(JsonObject);
+  }
+  multi method new (
+    JsonObject() $o,
+    :object(:jsonobject(:$jo)) is required
+  ) {
+    self.init_object($o);
+  }
+  method init_object (JsonObject() $object, :$raw = False)
+    is also<init-object>
+  {
+    my $n = json_node_alloc();
+    $n = self.bless( node => $n );
+
+    return Nil unless $n;
+
+    json_node_init_array($!jn, $object);
 
     $n ??
       ($raw ?? $n !! self)
@@ -82,22 +134,13 @@ class JSON::GLib::Node {
       Nil;
   }
 
-  method init_object (JsonObject() $object, :$raw = False) is also<init-object> {
-    my $n = json_node_init_object($!jn, $object);
-
-    $n ??
-      ($raw ?? $n !! self)
-      !!
-      Nil;
+  multi method new ($s, :str(:$string) is required) {
+    self.init_string($s);
   }
-
   method init_string (Str() $value, :$raw = False) is also<init-string> {
-    my $n = json_node_init_string($!jn, $value);
+    my $node = json_node_init_string(JSON::GLib::Node.alloc, $value);
 
-    $n ??
-      ($raw ?? $n !! self)
-      !!
-      Nil;
+    $node ?? self.bless(:$node) !! Nil;
   }
 
   method array (:$raw = False) is rw {
@@ -106,7 +149,7 @@ class JSON::GLib::Node {
       STORE => -> $, JsonArray() \a { self.set_array(a)     };
   }
 
-  method boolean is rw {
+  method boolean is also<bool> is rw {
     Proxy.new:
       FETCH => -> $           { self.get_boolean    },
       STORE => -> $, Int() \b { self.set_boolean(b) };
@@ -150,6 +193,10 @@ class JSON::GLib::Node {
 
   method alloc (JSON::GLib::Node:U: ) {
     json_node_alloc();
+  }
+
+  method clear_parent is also<clear-parent> {
+    self.parent = JsonNode;
   }
 
   method copy (:$raw = False) {
@@ -205,7 +252,13 @@ class JSON::GLib::Node {
       Nil;
   }
 
-  method get_boolean is also<get-boolean> {
+  method get_boolean
+    is also<
+      get-boolean
+      get_bool
+      get-bool
+    >
+  {
     so json_node_get_boolean($!jn);
   }
 
@@ -231,7 +284,7 @@ class JSON::GLib::Node {
     my $o = json_node_get_object($!jn);
 
     $o ??
-      ( $raw ?? $o !! JSON::GLib::Object.new($o) )
+      ( $raw ?? $o !! ::('JSON::GLib::Object').new($o) )
       !!
       Nil;
   }
@@ -302,11 +355,25 @@ class JSON::GLib::Node {
   }
 
   method set_array (JsonArray() $array) is also<set-array> {
+    # Avoids the C-exception at the cost of speed... which beats a dead
+    # program!
+    X::JSON::GLib::Node::NoSetImmutable.throw if self.is_immutable;
+
     json_node_set_array($!jn, $array);
   }
 
-  method set_boolean (Int() $value) is also<set-boolean> {
+  method set_boolean (Int() $value)
+    is also<
+      set-boolean
+      set_bool
+      set-bool
+    >
+  {
     my $v = $value.so.Int;
+
+    # Avoids the C-exception at the cost of speed... which beats a dead
+    # program!
+    X::JSON::GLib::Node::NoSetImmutable.throw if self.is_immutable;
 
     json_node_set_boolean($!jn, $v);
   }
@@ -314,16 +381,28 @@ class JSON::GLib::Node {
   method set_double (Num() $value) is also<set-double> {
     my gdouble $v = $value;
 
+    # Avoids the C-exception at the cost of speed... which beats a dead
+    # program!
+    X::JSON::GLib::Node::NoSetImmutable.throw if self.is_immutable;
+
     json_node_set_double($!jn, $value);
   }
 
   method set_int (Int() $value) is also<set-int> {
     my gint64 $v = $value;
 
+    # Avoids the C-exception at the cost of speed... which beats a dead
+    # program!
+    X::JSON::GLib::Node::NoSetImmutable.throw if self.is_immutable;
+
     json_node_set_int($!jn, $v);
   }
 
   method set_object (JsonObject() $object) is also<set-object> {
+    # Avoids the C-exception at the cost of speed... which beats a dead
+    # program!
+    X::JSON::GLib::Node::NoSetImmutable.throw if self.is_immutable;
+
     json_node_set_object($!jn, $object);
   }
 
