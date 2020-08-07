@@ -3,6 +3,7 @@ use v6.c;
 use NativeCall;
 
 use GLib::Raw::Definitions;
+use GLib::Raw::Object;
 use GLib::Raw::Structs;
 use GIO::Raw::Definitions;
 use JSON::GLib::Raw::Definitions;
@@ -83,7 +84,7 @@ sub json_parser_load_from_stream_async (
   JsonParser $parser,
   GInputStream $stream,
   GCancellable $cancellable,
-  GAsyncReadyCallback $callback,
+  &callback (GObject, GAsyncResult, Pointer),
   gpointer $user_data
 )
   is native(json-glib)
