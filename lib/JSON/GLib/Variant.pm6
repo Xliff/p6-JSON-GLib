@@ -7,6 +7,7 @@ use NativeCall;
 use JSON::GLib::Raw::Types;
 
 use GLib::Variant;
+use JSON::GLib::Node;
 
 use GLib::Roles::StaticClass;
 
@@ -49,11 +50,11 @@ class JSON::GLib::Variant {
     my gssize $l = $length;
 
     clear_error;
-    my $n = json_gvariant_deserialize_data($json, $l, $signature, $error);
+    my $v = json_gvariant_deserialize_data($json, $l, $signature, $error);
     set_error($error);
 
-    $n ??
-      ( $raw ?? $n !! JSON::GLib::Node.new($n) )
+    $v ??
+      ( $raw ?? $v !! GLib::Variant.new($v) )
       !!
       Nil;
   }
