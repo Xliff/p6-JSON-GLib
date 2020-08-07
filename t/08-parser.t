@@ -6,6 +6,7 @@ use Test;
 
 use JSON::GLib::Raw::Types;
 
+use GLib::MainLoop;
 use GLib::Unicode;
 use JSON::GLib::Node;
 use JSON::GLib::Object;
@@ -368,4 +369,38 @@ subtest 'Stream Sync', {
   my $o = (my $on = $a[0]).get-object;
   is $on.node-type,    JSON_NODE_OBJECT,    'First element of the array is an OBJECT';
   ok $o.has-member('hello'),                "Object contains the member 'hello'";
+}
+
+subtest 'Stream Async', {
+  my $p = JSON::GLib::Parser.new;
+  isa-ok $p,                JSON::GLib::Parser,  'Parser created successfully';
+
+  my $fp = $*CWD.add('t').add('stream-load.json');
+  my $f = GIO::Roles::GFile.new_for_path($fp);
+  my $s = $f.read;
+  nok $ERROR,                                    'No error detected upon load';
+  ok $s,                                         'Stream initialized, successfully';
+
+  my $ml = GLib::MainLoop.new;
+  $p.load-from-stream-async($s, -> $, $result, $ {
+    CATCH { default { .message.say } }
+
+    $p.load-from-stream-finish($result);
+
+    my $root = $p.root;
+    ok $root,                                    'Root node from async load is NOT Nil';
+    is $root.node-type,     JSON_NODE_ARRAY,     'Root node is an ARRAY';
+
+    my $array = $root.get-array;
+    is $array.elems,        1,                   'Array contains only 1 element';
+
+    my $on = $array[0];
+    is $on.node-type,       JSON_NODE_OBJECT,    'First element of the array is an OBJECT';
+
+    my $o = $on.get-object;
+    ok $o.has-member('hello'),                   'Object has a member called "hello"';
+
+    $ml.quit;
+  });
+  $ml.run;
 }
