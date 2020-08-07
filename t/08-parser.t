@@ -6,9 +6,12 @@ use Test;
 
 use JSON::GLib::Raw::Types;
 
+use GLib::Unicode;
 use JSON::GLib::Node;
 use JSON::GLib::Object;
 use JSON::GLib::Parser;
+
+use GIO::Roles::GFile;
 
 my $empty-string = '';
 my $empty-array  = '[ ]';
@@ -107,8 +110,13 @@ my @assignments = (
   { str => 'var baz = { "foo" : false }',      var => 'baz' }
 );
 
+# Need trailing comma, otherwise an implied .pairs is called on the Hash.
 my @unicode = (
-  { str => '{ "test" : "foo ' ~ chr(0x00e8) ~ '" }', member => "test", match => 'foo è' }
+  {
+    str    => '{ "test" : "foo ' ~ chr(0x00e8) ~ '" }',
+    member => 'test',
+    match  => 'foo è'
+  },
 );
 
 subtest 'Empty with Parser', {
@@ -284,4 +292,80 @@ subtest 'Nested Array', {
       ok $o.elems > 0,                               'Object is not empty';
     }
   }
+}
+
+subtest 'Assignment', {
+  my $p = JSON::GLib::Parser.new;
+  isa-ok $p, JSON::GLib::Parser, 'Parser created successfully';
+
+  for @assignments {
+    unless $p.load-from-data( .<str> ) {
+      diag "Error: { $ERROR.message }" if %*ENV<JSON_GLIB_VERBOSE>;
+      exit 1;
+    }
+
+    my $var;
+    diag .<str>;
+    ok $p.has-assignment($var),  'Parser properly detects assignment';
+    ok $var.chars,               "Parser returns non-empty variable name of '{ $var }'";
+    is $var, .<var>,             'Parser variable name matches expected result';
+  }
+}
+
+subtest 'Unicode Escape', {
+  my $p = JSON::GLib::Parser.new;
+  isa-ok $p, JSON::GLib::Parser, 'Parser created successfully';
+
+  for @unicode {
+    diag .<str>;
+
+    unless $p.load-from-data( .<str> ) {
+      diag "Error: { $ERROR.message }" if %*ENV<JSON_GLIB_VERBOSE>;
+      exit 1;
+    }
+
+    my $root = $p.root;
+    my $o = $root.get-object;
+
+    ok  $root,                              'Root node was obtained successfully';
+    is  $root.node-type, JSON_NODE_OBJECT,  'Root note is of OBJECT type';
+    ok  $o,                                 'Object retrieved from root node is NOT Nil';
+    ok  $o.elems > 0,                       'Object contains at least 1 member';
+
+    my $mn = $o.get-member( .<member> );
+    is  $mn.node-type,   JSON_NODE_VALUE,   "Member '{ .<member> }' is of VALUE type";
+    is  $mn.string,      .<match>,          'Member value matches expected result';
+    ok  GLib::UTF8.validate($mn.string),    'Retrieved value is a valid utf-8 string';
+  }
+}
+
+subtest 'Stream Sync', {
+  my $p = JSON::GLib::Parser.new;
+  isa-ok $p, JSON::GLib::Parser, 'Parser created successfully';
+
+  my $fp = $*CWD.add('t').add('stream-load.json');
+  my $f = GIO::Roles::GFile.new_for_path($fp);
+  my $s = $f.read;
+  if $ERROR {
+    say "Error! -- { $ERROR.message }";
+    exit 1;
+  }
+
+  ok $s,                                    "Successfully opened stream to $fp";
+  $p.load-from-stream($s);
+  if $ERROR {
+    say "Error! -- { $ERROR.message }";
+    exit 1;
+  }
+
+  my $root = $p.root;
+  ok  $root,                                'Root node was obtained successfully';
+  is  $root.node-type, JSON_NODE_ARRAY,     'Root node is an ARRAY type';
+
+  my $a = $root.get-array;
+  is $a.elems,         1,                   'Array holds only 1 element';
+
+  my $o = (my $on = $a[0]).get-object;
+  is $on.node-type,    JSON_NODE_OBJECT,    'First element of the array is an OBJECT';
+  ok $o.has-member('hello'),                "Object contains the member 'hello'";
 }
