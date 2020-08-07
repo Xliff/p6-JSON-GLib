@@ -141,8 +141,23 @@ class JSON::GLib::Parser {
     unstable_get_type( self.^name, &json_parser_get_type, $n, $t );
   }
 
-  method has_assignment (Str() $variable_name) is also<has-assignment> {
-    so json_parser_has_assignment($!jp, $variable_name);
+  proto method has_assignment (|)
+    is also<has-assignment>
+  { * }
+
+  multi method has_assignment {
+    my $rv = samewith($, :all);
+
+    $rv[0] ?? $rv[1] !! Nil;
+  }
+  multi method has_assignment ($variable_name is rw, :$all = False) {
+    my $vn = CArray[Str].new;
+    $vn[0] = Str;
+
+    my $a = so json_parser_has_assignment($!jp, $vn);
+    $variable_name = ppr($vn);
+
+    $all.not ?? $a !! ($a, $variable_name);
   }
 
   method load_from_data (
@@ -220,7 +235,7 @@ class JSON::GLib::Parser {
     GAsyncResult() $result,
     CArray[Pointer[GError]] $error = gerror
   )
-    is also<load-from-stream-finish> 
+    is also<load-from-stream-finish>
   {
     clear_error;
     my $rv = so json_parser_load_from_stream_finish($!jp, $result, $error);

@@ -41,7 +41,7 @@ sub json_parser_get_type ()
   is export
 { * }
 
-sub json_parser_has_assignment (JsonParser $parser, Str $variable_name)
+sub json_parser_has_assignment (JsonParser $parser, CArray[Str] $variable_name)
   returns uint32
   is native(json-glib)
   is export
