@@ -371,22 +371,8 @@ subtest 'Stream Sync', {
   ok $o.has-member('hello'),                "Object contains the member 'hello'";
 }
 
-subtest 'Stream Async', {
-  my $p = JSON::GLib::Parser.new;
-  isa-ok $p,                JSON::GLib::Parser,  'Parser created successfully';
-
-  my $fp = $*CWD.add('t').add('stream-load.json');
-  my $f = GIO::Roles::GFile.new_for_path($fp);
-  my $s = $f.read;
-  nok $ERROR,                                    'No error detected upon load';
-  ok $s,                                         'Stream initialized, successfully';
-
-  my $ml = GLib::MainLoop.new;
-  $p.load-from-stream-async($s, -> $, $result, $ {
-    CATCH { default { .message.say } }
-
-    $p.load-from-stream-finish($result);
-
+{
+  sub check-stream-load-json ($p) {
     my $root = $p.root;
     ok $root,                                    'Root node from async load is NOT Nil';
     is $root.node-type,     JSON_NODE_ARRAY,     'Root node is an ARRAY';
@@ -399,8 +385,41 @@ subtest 'Stream Async', {
 
     my $o = $on.get-object;
     ok $o.has-member('hello'),                   'Object has a member called "hello"';
+  }
 
-    $ml.quit;
-  });
-  $ml.run;
+  subtest 'Stream Async', {
+    my $p = JSON::GLib::Parser.new;
+    isa-ok $p,                JSON::GLib::Parser,  'Parser created successfully';
+
+    my $fp = $*CWD.add('t').add('stream-load.json');
+    my $f = GIO::Roles::GFile.new_for_path($fp);
+    my $s = $f.read;
+    nok $ERROR,                                    'No error detected upon load';
+    ok $s,                                         'Stream initialized, successfully';
+
+    my $ml = GLib::MainLoop.new;
+    $p.load-from-stream-async($s, -> $, $result, $ {
+      CATCH { default { .message.say } }
+
+      $p.load-from-stream-finish($result);
+      check-stream-load-json($p);
+      $ml.quit;
+    });
+    $ml.run;
+  }
+
+  # cw: Not found in recent sources....removed?
+  # subtest 'Load from Mapped', {
+  #   my $p = JSON::GLib::Parser.new;
+  #   isa-ok $p,                JSON::GLib::Parser,  'Parser created successfully';
+  #
+  #   my $fp = $*CWD.add('t').add('stream-load.json');
+  #   $p.load-from-mapped($fp.absolute);
+  #   nok                       $ERROR,              'Mapped file loaded with no error';
+  #   check-stream-load-json($p);
+  # }
+  #
+  # test_mapped_file_error
+  # test_mapped_json_error
+
 }
