@@ -1,6 +1,7 @@
 use v6.c;
 
 use NativeCall;
+use Method::Also;
 
 use JSON::GLib::Raw::Types;
 use JSON::GLib::Raw::Path;
@@ -12,7 +13,7 @@ use GLib::Roles::Object;
 class JSON::GLib::Path {
   also does GLib::Roles::Object;
 
-  has JsonPath $!jp;
+  has JsonPath $!jp is implementor;
 
   submethod BUILD ( :path(:$!jp) ) { }
 
@@ -34,7 +35,12 @@ class JSON::GLib::Path {
     $rv;
   }
 
-  method error_quark (JSON::GLib::Path:U: ) {
+  method error_quark (JSON::GLib::Path:U: ) 
+    is also<
+      error-quark
+      error
+    >
+  {
     json_path_error_quark();
   }
 
