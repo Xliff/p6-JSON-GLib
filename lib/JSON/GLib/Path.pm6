@@ -19,6 +19,10 @@ class JSON::GLib::Path {
 
   submethod TWEAK                  { self.roleInit-Object }
 
+  method JSON::GLib::Raw::Definitions::JsonPath
+    is also<JsonPath>
+  { $!jp }
+
   multi method new (JsonPath $path) {
     $path ?? self.bless( :$path ) !! Nil;
   }
@@ -35,7 +39,7 @@ class JSON::GLib::Path {
     $rv;
   }
 
-  method error_quark (JSON::GLib::Path:U: ) 
+  method error_quark (JSON::GLib::Path:U: )
     is also<
       error-quark
       error
