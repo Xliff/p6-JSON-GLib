@@ -111,7 +111,7 @@ sub json_reader_is_value (JsonReader $reader)
 { * }
 
 sub json_reader_list_members (JsonReader $reader)
-  returns Str
+  returns CArray[Str]
   is native(json-glib)
   is export
 { * }

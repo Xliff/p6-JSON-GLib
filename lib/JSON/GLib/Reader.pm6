@@ -12,7 +12,7 @@ use GLib::Roles::Object;
 class JSON::GLib::Reader {
   also does GLib::Roles::Object;
 
-  has JsonReader $!jr;
+  has JsonReader $!jr is implementor;
 
   submethod BUILD ( :reader(:$!jr) ) { }
 
@@ -26,7 +26,7 @@ class JSON::GLib::Reader {
   multi method new (JsonReader $reader) {
     $reader ?? self.bless( :$reader ) !! Nil;
   }
-  multi method new (JsonNode() $node) {
+  multi method new (JsonNode() $node = JsonNode) {
     my $reader = json_reader_new($node);
 
     $reader ?? self.bless( :$reader ) !! Nil;
@@ -82,7 +82,12 @@ class JSON::GLib::Reader {
     json_reader_end_member($!jr);
   }
 
-  method error_quark (JSON::GLib::Reader:U ) is also<error-quark> {
+  method error_quark (JSON::GLib::Reader:U: )
+    is also<
+      error-quark
+      error
+    >
+  {
     json_reader_error_quark();
   }
 
@@ -91,6 +96,8 @@ class JSON::GLib::Reader {
       get-boolean-value
       boolean_value
       boolean-value
+      boolean
+      bool
     >
   {
     so json_reader_get_boolean_value($!jr);
@@ -101,6 +108,7 @@ class JSON::GLib::Reader {
       get-double-value
       double_value
       double-value
+      double
     >
   {
     json_reader_get_double_value($!jr);
@@ -115,6 +123,7 @@ class JSON::GLib::Reader {
       get-int-value
       int_value
       int-value
+      int
     >
   {
     json_reader_get_int_value($!jr);
@@ -125,6 +134,7 @@ class JSON::GLib::Reader {
       get-member-name
       member_name
       member-name
+      member
     >
   {
     json_reader_get_member_name($!jr);
@@ -135,6 +145,7 @@ class JSON::GLib::Reader {
       get-null-value
       null_value
       null-value
+      null
     >
   {
     so json_reader_get_null_value($!jr);
@@ -145,6 +156,7 @@ class JSON::GLib::Reader {
       get-string-value
       string_value
       string-value
+      string
     >
   {
     json_reader_get_string_value($!jr);
@@ -177,7 +189,12 @@ class JSON::GLib::Reader {
     so json_reader_is_value($!jr);
   }
 
-  method list_members is also<list-members> {
+  method list_members
+    is also<
+      list-members
+      members
+    >
+  {
     CArrayToArray( json_reader_list_members($!jr) );
   }
 
