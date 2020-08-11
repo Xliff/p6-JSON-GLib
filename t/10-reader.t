@@ -12,7 +12,7 @@ my $base_object  = '{ "text" : "hello, world!", "foo" : null, "blah" : 47, "doub
 my $reader_level = ' { "list": { "181195771": { "given_url": "http://www.gnome.org/json-glib-test" } } }';
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=758580
-my $null_value_data   = '{ "v": null }';
+my $null_value   = '{ "v": null }';
 
 my @expected_member_name = <text foo blah double>;
 
@@ -136,4 +136,19 @@ subtest 'Reader Level', {
   is  $r.member, 'list',                                       q«Current member is called 'list', after call to .end-member»;
   $r.end-member;
   nok $r.member,                                               'Current member is undefined after call to .end-mamber';
+}
+
+subtest 'Null Value', {
+  my ($p, $r) = (JSON::GLib::Parser, JSON::GLib::Reader)».new;
+  $p.load-from-data($reader_level);
+  nok $ERROR,                                                  'No errors detected from parser';
+
+  $p.load-from-data($null_value);
+  nok $ERROR,                                                  'No errors detected from parser';
+
+  $r.root = $p.root;
+  $r.read-member('v');
+  ok  $r.is-value,                                             'Current reader state points to a VALUE';
+  nok $r.get-error,                                            'No error queued in reader';
+  ok  $r.get-value,                                            'Reader returns a non-Nil value';
 }
