@@ -104,3 +104,36 @@ subtest 'Base Array', {
   my $e = $r.get-error;
   nok $e,                                                      'ERROR cleared after call to .end-element';
 }
+
+subtest 'Reader Level', {
+  my ($p, $r) = (JSON::GLib::Parser, JSON::GLib::Reader)».new;
+  $p.load-from-data($reader_level);
+  nok $ERROR,                                                  'No errors detected from parser';
+
+  $r.root = $p.root;
+
+  ok  $r.m-elems > 0,                                          'Reader contains at least one member';
+  ok  $r.read-member('list'),                                  q«Can read from member 'list'»;
+  is  $r.member, 'list',                                       q«Can confirm that current member is called 'list'»;
+
+  ok  (my $members = $r.list-members),                         'Member list is NOT Nil';
+
+  ok  $r.read-member('181195771'),                             q«Can read from member '181195771'»;
+  is  $r.member, '181195771',                                  q«Can confirm that current member is called '181195771'»;
+
+  nok $r.read-member('resolved_url'),                          q«Can NOT read from member 'resolved_url'»;
+  nok $r.member,                                               'Current member name is Nil';
+  $r.end-member;
+  is  $r.member, '181195771',                                  q«Current member is called '181195771', after call to .end-member»;
+
+  ok  $r.read-member('given_url'),                             q«Can read from member 'given_url'»;
+  is  $r.member, 'given_url',                                  q«Can confirm that current member is 'given_url'»;
+  is  $r.string, 'http://www.gnome.org/json-glib-test',        'String value at current node matches expected value';
+  $r.end-member;
+
+  is  $r.member, '181195771',                                  q«Current member is called '181195771', after call to .end-member»;
+  $r.end-member;
+  is  $r.member, 'list',                                       q«Current member is called 'list', after call to .end-member»;
+  $r.end-member;
+  nok $r.member,                                               'Current member is undefined after call to .end-mamber';
+}
