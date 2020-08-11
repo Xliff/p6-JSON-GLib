@@ -56,3 +56,51 @@ subtest 'Base Object', {
   ok  $r.double =~= 42.47,                               q«Double value retrieved from member 'double' matches expected value»;
   $r.end-member;
 }
+
+subtest 'Base Array', {
+  my ($p, $r) = (JSON::GLib::Parser, JSON::GLib::Reader)».new;
+  $p.load-from-data($base_array);
+  nok $ERROR,                                                  'No errors detected from parser';
+
+  $r.root = $p.root;
+  ok  $r.is-array,                                             'Reader currently points to an ARRAY';
+  is $r.elems,               7,                                'ARRAY on reader currently has the proper number of members';
+
+  $r.read-element(0);
+  ok  $r.is-value,                                             'Element 0 is a VALUE type';
+  is  $r.int,                0,                                'Element 0 contains the proper value';
+  $r.end-element;
+
+  $r.read-element(1);
+  ok  $r.is-value,                                             'Element 1 is a VALUE type';
+  is  $r.bool,               True,                             'Element 1 contains the proper value';
+  $r.end-element;
+
+  $r.read-element(3);
+  ok  $r.is-value,                                             'Element 3 is a VALUE type';
+  is  $r.string,             'foo',                            'Element 3 contains the proper value';
+  $r.end-element;
+
+  $r.read-element(5);
+  $r.is-value,                                                 'Element 5 IS NOT a VALUE type';
+  nok $r.is-object,                                            'Element 5 IS NOT an OBJECT type';
+  ok  $r.is-array,                                             'Element 5 is an ARRAY type';
+
+  $r.end-element;
+
+  $r.read-element(6);
+  ok $r.is-object,                                             'Element 6 is an OBJECT type';
+  $r.read-member('bar');
+  ok $r.is-value,                                              q«Element 6, member 'bar' is a VALUE type»;
+  is $r.int,                 42,                               q«Element 6, member 'bar' contains the correct value»;
+  $r.end-member;
+  $r.end-element;
+
+  nok $r.read-element(7),                                      'Element 7 cannot be read';
+  my $e = $r.get-error;
+  is  $e.domain,         JSON::GLib::Reader.error,             'ERROR contains the proper domain';
+  is  $e.code,           JSON_READER_ERROR_INVALID_INDEX.Int,  'ERROR contains the proper code';
+  $r.end-element;
+  my $e = $r.get-error;
+  nok $e,                                                      'ERROR cleared after call to .end-element';
+}
