@@ -1,7 +1,5 @@
 use v6;
 
-use CompUnit::Util :re-export;
-
 use GLib::Raw::Exports;
 use GIO::Raw::Exports;
 use JSON::GLib::Raw::Exports;
@@ -24,7 +22,7 @@ need GIO::DBus::Raw::Types;
 need JSON::GLib::Raw::Definitions;
 
 BEGIN {
-  re-export($_) for |@glib-exports,
-                    |@gio-exports,
-                    |@jg-exports;
+  glib-re-export($_) for |@glib-exports,
+                         |@gio-exports,
+                         |@jg-exports;
 }
