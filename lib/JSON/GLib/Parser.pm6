@@ -76,7 +76,7 @@ class JSON::GLib::Parser {
   # Is originally:
   # JsonParser, gpointer, gpointer --> void
   method error {
-    self.connect-error($!jp);
+    self.connect-json-glib-error($!jp);
   }
 
   # Is originally:

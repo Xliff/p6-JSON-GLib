@@ -58,7 +58,9 @@ role JSON::GLib::Roles::Signals::Parser {
   }
 
   # JsonParser, gpointer, gpointer
-  method connect-error (
+  # Note, method name is the result of a collision with the connect-error
+  # found in GLib::Roles::Signals::Generic via GLib::Roles::Object.
+  method connect-json-glib-error (
     $obj,
     $signal = 'error',
     &handler?
