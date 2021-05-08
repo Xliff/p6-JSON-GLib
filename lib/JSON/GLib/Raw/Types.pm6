@@ -8,16 +8,17 @@ unit package JSON::GLib::Raw::Types;
 
 need GLib::Raw::Definitions;
 need GLib::Raw::Enums;
+need GLib::Raw::Exceptions;
 need GLib::Raw::Object;
 need GLib::Raw::Structs;
-need GLib::Raw::Struct_Subs;
 need GLib::Raw::Subs;
-need GLib::Raw::Exports;
+need GLib::Raw::Struct_Subs;
+need GLib::Roles::Pointers;
 need GIO::Raw::Definitions;
 need GIO::Raw::Enums;
+need GIO::Raw::Quarks;
 need GIO::Raw::Structs;
 need GIO::Raw::Subs;
-need GIO::Raw::Exports;
 need GIO::DBus::Raw::Types;
 need JSON::GLib::Raw::Definitions;
 
