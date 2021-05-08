@@ -1,7 +1,7 @@
 {
     "depends": [
         "p6-GLib",
-        "p6-GIO",
+        "p6-GIO"
     ],
     "description": "Perl6 library bindings for GNOME's JSON-GLib library",
     "version": "r0.1",
