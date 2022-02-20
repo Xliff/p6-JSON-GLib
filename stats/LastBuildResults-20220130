@@ -1,11 +1,11 @@
 Dependency Generation
 =====================
-real 0.82
-user 1.29
-sys 0.06
+real 0.95
+user 1.49
+sys 0.04
  === GIO::DBus::Raw::Types === (1/44)
 Stage start      :   0.000
-Stage parse      :   1.864
+Stage parse      :   1.927
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
@@ -14,43 +14,43 @@ Stage mbc        :   0.002
 Stage moar       :   0.000
  === GIO::Raw::Definitions === (2/44)
 Stage start      :   0.000
-Stage parse      :   1.560
-Stage syntaxcheck:   0.000
-Stage ast        :   0.000
-Stage optimize   :   0.007
-Stage mast       :   0.002
-Stage mbc        :   0.001
-Stage moar       :   0.000
- === GIO::Raw::Enums === (3/44)
-Stage start      :   0.000
-Stage parse      :   1.578
+Stage parse      :   1.510
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
 Stage mast       :   0.003
+Stage mbc        :   0.001
+Stage moar       :   0.000
+ === GIO::Raw::Enums === (3/44)
+Stage start      :   0.000
+Stage parse      :   1.550
+Stage syntaxcheck:   0.000
+Stage ast        :   0.000
+Stage optimize   :   0.003
+Stage mast       :   0.004
 Stage mbc        :   0.002
 Stage moar       :   0.000
  === GIO::Raw::Exports === (4/44)
 Stage start      :   0.000
-Stage parse      :   1.332
+Stage parse      :   1.307
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.010
+Stage mast       :   0.007
 Stage mbc        :   0.001
 Stage moar       :   0.000
  === GIO::Raw::Quarks === (5/44)
 Stage start      :   0.000
-Stage parse      :   1.808
+Stage parse      :   1.761
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
 Stage mast       :   0.002
-Stage mbc        :   0.001
+Stage mbc        :   0.002
 Stage moar       :   0.000
  === GIO::Raw::Structs === (6/44)
 Stage start      :   0.000
-Stage parse      :   1.778
+Stage parse      :   1.786
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
@@ -59,7 +59,7 @@ Stage mbc        :   0.001
 Stage moar       :   0.000
  === GIO::Raw::Subs === (7/44)
 Stage start      :   0.000
-Stage parse      :   1.799
+Stage parse      :   1.785
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
@@ -68,43 +68,43 @@ Stage mbc        :   0.001
 Stage moar       :   0.000
  === GLib::GList === (8/44)
 Stage start      :   0.000
-Stage parse      :   1.846
-Stage syntaxcheck:   0.000
-Stage ast        :   0.000
-Stage optimize   :   0.000
-Stage mast       :   0.002
-Stage mbc        :   0.001
-Stage moar       :   0.000
- === GLib::Raw::Definitions === (9/44)
-Stage start      :   0.000
-Stage parse      :   1.521
+Stage parse      :   1.760
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
 Stage mast       :   0.002
 Stage mbc        :   0.002
 Stage moar       :   0.000
- === GLib::Raw::Enums === (10/44)
+ === GLib::Raw::Definitions === (9/44)
 Stage start      :   0.000
-Stage parse      :   1.672
-Stage syntaxcheck:   0.000
-Stage ast        :   0.000
-Stage optimize   :   0.006
-Stage mast       :   0.006
-Stage mbc        :   0.003
-Stage moar       :   0.000
- === GLib::Raw::Exceptions === (11/44)
-Stage start      :   0.000
-Stage parse      :   1.328
+Stage parse      :   1.548
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.006
+Stage mast       :   0.003
+Stage mbc        :   0.009
+Stage moar       :   0.000
+ === GLib::Raw::Enums === (10/44)
+Stage start      :   0.000
+Stage parse      :   1.651
+Stage syntaxcheck:   0.000
+Stage ast        :   0.000
+Stage optimize   :   0.006
+Stage mast       :   0.007
+Stage mbc        :   0.004
+Stage moar       :   0.000
+ === GLib::Raw::Exceptions === (11/44)
+Stage start      :   0.000
+Stage parse      :   1.306
+Stage syntaxcheck:   0.000
+Stage ast        :   0.000
+Stage optimize   :   0.002
+Stage mast       :   0.007
 Stage mbc        :   0.001
 Stage moar       :   0.000
  === GLib::Raw::Exports === (12/44)
 Stage start      :   0.000
-Stage parse      :   1.422
+Stage parse      :   1.376
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
@@ -113,16 +113,16 @@ Stage mbc        :   0.000
 Stage moar       :   0.000
  === GLib::Raw::Object === (13/44)
 Stage start      :   0.000
-Stage parse      :   1.656
+Stage parse      :   1.604
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
 Stage mast       :   0.002
-Stage mbc        :   0.001
+Stage mbc        :   0.002
 Stage moar       :   0.000
  === GLib::Raw::Struct_Subs === (14/44)
 Stage start      :   0.000
-Stage parse      :   1.566
+Stage parse      :   1.506
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
@@ -131,7 +131,7 @@ Stage mbc        :   0.001
 Stage moar       :   0.000
  === GLib::Raw::Structs === (15/44)
 Stage start      :   0.000
-Stage parse      :   1.764
+Stage parse      :   1.749
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
@@ -140,12 +140,12 @@ Stage mbc        :   0.001
 Stage moar       :   0.000
  === GLib::Raw::Subs === (16/44)
 Stage start      :   0.000
-Stage parse      :   1.739
+Stage parse      :   1.696
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
-Stage optimize   :   0.001
-Stage mast       :   0.002
-Stage mbc        :   0.001
+Stage optimize   :   0.002
+Stage mast       :   0.005
+Stage mbc        :   0.002
 Stage moar       :   0.000
  === GLib::Roles::ListData === (17/44)
 Stage start      :   0.000
@@ -153,75 +153,75 @@ Stage parse      :   1.781
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.000
-Stage mast       :   0.002
+Stage mast       :   0.001
 Stage mbc        :   0.001
 Stage moar       :   0.000
  === GLib::Roles::Object === (18/44)
 Stage start      :   0.000
-Stage parse      :   1.990
+Stage parse      :   1.929
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
-Stage mast       :   0.001
+Stage mast       :   0.002
 Stage mbc        :   0.002
 Stage moar       :   0.000
  === GLib::Roles::Pointers === (19/44)
 Stage start      :   0.000
-Stage parse      :   1.542
+Stage parse      :   1.537
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
-Stage mast       :   0.001
+Stage mast       :   0.002
 Stage mbc        :   0.001
 Stage moar       :   0.000
  === GLib::Roles::StaticClass === (20/44)
 Stage start      :   0.000
-Stage parse      :   1.784
-Stage syntaxcheck:   0.000
-Stage ast        :   0.000
-Stage optimize   :   0.000
-Stage mast       :   0.001
-Stage mbc        :   0.001
-Stage moar       :   0.000
- === GLib::String === (21/44)
-Stage start      :   0.000
-Stage parse      :   1.801
-Stage syntaxcheck:   0.000
-Stage ast        :   0.000
-Stage optimize   :   0.000
-Stage mast       :   0.001
-Stage mbc        :   0.001
-Stage moar       :   0.000
- === GLib::Value === (22/44)
-Stage start      :   0.000
-Stage parse      :   1.793
+Stage parse      :   1.783
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
 Stage mast       :   0.002
 Stage mbc        :   0.001
 Stage moar       :   0.000
+ === GLib::String === (21/44)
+Stage start      :   0.000
+Stage parse      :   1.936
+Stage syntaxcheck:   0.000
+Stage ast        :   0.000
+Stage optimize   :   0.001
+Stage mast       :   0.002
+Stage mbc        :   0.002
+Stage moar       :   0.000
+ === GLib::Value === (22/44)
+Stage start      :   0.000
+Stage parse      :   1.836
+Stage syntaxcheck:   0.000
+Stage ast        :   0.000
+Stage optimize   :   0.001
+Stage mast       :   0.002
+Stage mbc        :   0.002
+Stage moar       :   0.000
  === GLib::Variant === (23/44)
 Stage start      :   0.000
-Stage parse      :   1.822
+Stage parse      :   1.845
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.000
 Stage mast       :   0.002
-Stage mbc        :   0.001
+Stage mbc        :   0.002
 Stage moar       :   0.000
  === Method::Also === (24/44)
 Stage start      :   0.000
-Stage parse      :   1.337
+Stage parse      :   1.303
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.006
+Stage mast       :   0.007
 Stage mbc        :   0.001
 Stage moar       :   0.000
  === NativeCall === (25/44)
 Stage start      :   0.000
-Stage parse      :   1.481
+Stage parse      :   1.548
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.001
@@ -233,17 +233,17 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Raw/Definitions.pm6
     Stage start      :   0.000
-    Stage parse      :   1.816
+    Stage parse      :   1.893
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.006
-    Stage mast       :   0.018
-    Stage mbc        :   0.004
-Stage parse      :   3.349
+    Stage optimize   :   0.007
+    Stage mast       :   0.017
+    Stage mbc        :   0.006
+Stage parse      :   3.451
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.012
+Stage mast       :   0.007
 Stage mbc        :   0.001
 Stage moar       :   0.000
  === JSON::GLib::Raw::Generator === (27/44)
@@ -251,17 +251,17 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Raw/Generator.pm6
     Stage start      :   0.000
-    Stage parse      :   2.310
+    Stage parse      :   2.479
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.008
-    Stage mast       :   0.017
-    Stage mbc        :   0.009
-Stage parse      :   3.953
+    Stage optimize   :   0.010
+    Stage mast       :   0.021
+    Stage mbc        :   0.011
+Stage parse      :   4.165
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.004
+Stage mast       :   0.013
 Stage mbc        :   0.001
 Stage moar       :   0.000
  === JSON::GLib::Raw::ObjectNodeArray === (28/44)
@@ -269,16 +269,16 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Raw/ObjectNodeArray.pm6
     Stage start      :   0.000
-    Stage parse      :   3.466
+    Stage parse      :   3.844
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.045
-    Stage mast       :   0.083
-    Stage mbc        :   0.050
-Stage parse      :   5.250
+    Stage optimize   :   0.051
+    Stage mast       :   0.102
+    Stage mbc        :   0.058
+Stage parse      :   5.828
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
-Stage optimize   :   0.014
+Stage optimize   :   0.003
 Stage mast       :   0.005
 Stage mbc        :   0.001
 Stage moar       :   0.000
@@ -287,17 +287,17 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Raw/Parser.pm6
     Stage start      :   0.000
-    Stage parse      :   2.348
+    Stage parse      :   2.422
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.009
-    Stage mast       :   0.018
-    Stage mbc        :   0.014
-Stage parse      :   3.965
+    Stage optimize   :   0.011
+    Stage mast       :   0.022
+    Stage mbc        :   0.013
+Stage parse      :   4.140
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.016
+Stage mast       :   0.005
 Stage mbc        :   0.001
 Stage moar       :   0.000
  === JSON::GLib::Raw::Path === (30/44)
@@ -305,31 +305,31 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Raw/Path.pm6
     Stage start      :   0.000
-    Stage parse      :   2.035
+    Stage parse      :   2.123
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.005
-    Stage mast       :   0.018
+    Stage optimize   :   0.006
+    Stage mast       :   0.020
     Stage mbc        :   0.005
-Stage parse      :   3.599
+Stage parse      :   3.777
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
 Stage mast       :   0.004
-Stage mbc        :   0.001
+Stage mbc        :   0.000
 Stage moar       :   0.000
  === JSON::GLib::Raw::Reader === (31/44)
 Stage start      :   0.000
 
     precomp lib/JSON/GLib/Raw/Reader.pm6
     Stage start      :   0.000
-    Stage parse      :   2.333
+    Stage parse      :   2.319
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.015
-    Stage mast       :   0.022
-    Stage mbc        :   0.012
-Stage parse      :   3.956
+    Stage optimize   :   0.012
+    Stage mast       :   0.045
+    Stage mbc        :   0.016
+Stage parse      :   4.003
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
@@ -341,17 +341,17 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Raw/Exports.pm6
     Stage start      :   0.000
-    Stage parse      :   0.150
+    Stage parse      :   0.172
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
     Stage optimize   :   0.003
     Stage mast       :   0.005
     Stage mbc        :   0.002
-Stage parse      :   1.606
+Stage parse      :   1.677
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.006
+Stage mast       :   0.007
 Stage mbc        :   0.001
 Stage moar       :   0.000
  === JSON::GLib::Raw::Types === (33/44)
@@ -359,31 +359,31 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Raw/Types.pm6
     Stage start      :   0.000
-    Stage parse      :   2.386
+    Stage parse      :   2.495
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
     Stage optimize   :   0.003
-    Stage mast       :   0.014
-    Stage mbc        :   0.003
-Stage parse      :   4.052
+    Stage mast       :   0.016
+    Stage mbc        :   0.004
+Stage parse      :   4.193
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
-Stage optimize   :   0.010
-Stage mast       :   0.016
-Stage mbc        :   0.008
+Stage optimize   :   0.016
+Stage mast       :   0.018
+Stage mbc        :   0.011
 Stage moar       :   0.000
  === JSON::GLib::Roles::Signals::Parser === (34/44)
 Stage start      :   0.000
 
     precomp lib/JSON/GLib/Roles/Signals/Parser.pm6
     Stage start      :   0.000
-    Stage parse      :   2.161
+    Stage parse      :   2.342
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.027
-    Stage mast       :   0.044
-    Stage mbc        :   0.016
-Stage parse      :   3.860
+    Stage optimize   :   0.033
+    Stage mast       :   0.066
+    Stage mbc        :   0.018
+Stage parse      :   4.059
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
@@ -395,32 +395,32 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Node.pm6
     Stage start      :   0.000
-    Stage parse      :   2.566
+    Stage parse      :   2.644
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.052
-    Stage mast       :   0.101
-    Stage mbc        :   0.011
-Stage parse      :   4.369
+    Stage optimize   :   0.060
+    Stage mast       :   0.098
+    Stage mbc        :   0.014
+Stage parse      :   4.468
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
-Stage optimize   :   0.014
+Stage optimize   :   0.002
 Stage mast       :   0.004
-Stage mbc        :   0.001
+Stage mbc        :   0.000
 Stage moar       :   0.000
  === JSON::GLib::Parser === (36/44)
 Stage start      :   0.000
 
     precomp lib/JSON/GLib/Parser.pm6
     Stage start      :   0.000
-    Stage parse      :   2.725
+    Stage parse      :   2.915
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.040
-    Stage mast       :   0.066
-    Stage mbc        :   0.007
+    Stage optimize   :   0.053
+    Stage mast       :   0.058
+    Stage mbc        :   0.008
 R: GLib::Roles::Object
-Stage parse      :   4.604
+Stage parse      :   4.773
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
@@ -433,14 +433,14 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Path.pm6
     Stage start      :   0.000
-    Stage parse      :   2.603
+    Stage parse      :   2.818
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.015
-    Stage mast       :   0.029
-    Stage mbc        :   0.007
+    Stage optimize   :   0.018
+    Stage mast       :   0.033
+    Stage mbc        :   0.009
 R: GLib::Roles::Object
-Stage parse      :   4.336
+Stage parse      :   4.624
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
@@ -452,51 +452,51 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Raw/Builder.pm6
     Stage start      :   0.000
-    Stage parse      :   2.161
+    Stage parse      :   2.452
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.015
-    Stage mast       :   0.029
-    Stage mbc        :   0.019
-Stage parse      :   3.846
+    Stage optimize   :   0.020
+    Stage mast       :   0.033
+    Stage mbc        :   0.029
+Stage parse      :   4.236
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.004
-Stage mbc        :   0.000
+Stage mast       :   0.005
+Stage mbc        :   0.001
 Stage moar       :   0.000
  === JSON::GLib::Reader === (39/44)
 Stage start      :   0.000
 
     precomp lib/JSON/GLib/Reader.pm6
     Stage start      :   0.000
-    Stage parse      :   2.823
+    Stage parse      :   2.954
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.028
-    Stage mast       :   0.036
-    Stage mbc        :   0.015
+    Stage optimize   :   0.032
+    Stage mast       :   0.040
+    Stage mbc        :   0.020
 R: GLib::Roles::Object
-Stage parse      :   4.608
+Stage parse      :   4.833
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
 Stage mast       :   0.004
-Stage mbc        :   0.000
+Stage mbc        :   0.001
 Stage moar       :   0.000
  === JSON::GLib::Variant === (40/44)
 Stage start      :   0.000
 
     precomp lib/JSON/GLib/Variant.pm6
     Stage start      :   0.000
-    Stage parse      :   2.426
+    Stage parse      :   2.535
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.024
-    Stage mast       :   0.026
-    Stage mbc        :   0.008
+    Stage optimize   :   0.027
+    Stage mast       :   0.053
+    Stage mbc        :   0.009
 R: GLib::Roles::StaticClass
-Stage parse      :   4.146
+Stage parse      :   4.343
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
@@ -508,52 +508,52 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Array.pm6
     Stage start      :   0.000
-    Stage parse      :   2.452
+    Stage parse      :   2.594
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.046
-    Stage mast       :   0.064
-    Stage mbc        :   0.008
+    Stage optimize   :   0.048
+    Stage mast       :   0.060
+    Stage mbc        :   0.010
 R: Positional
-Stage parse      :   4.250
+Stage parse      :   4.455
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.004
-Stage mbc        :   0.000
+Stage mast       :   0.012
+Stage mbc        :   0.001
 Stage moar       :   0.000
  === JSON::GLib::Builder === (42/44)
 Stage start      :   0.000
 
     precomp lib/JSON/GLib/Builder.pm6
     Stage start      :   0.000
-    Stage parse      :   2.634
+    Stage parse      :   2.744
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.029
-    Stage mast       :   0.039
-    Stage mbc        :   0.008
+    Stage optimize   :   0.033
+    Stage mast       :   0.040
+    Stage mbc        :   0.036
 R: GLib::Roles::Object
-Stage parse      :   4.415
+Stage parse      :   4.625
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.004
-Stage mbc        :   0.000
+Stage mast       :   0.005
+Stage mbc        :   0.001
 Stage moar       :   0.000
  === JSON::GLib::Generator === (43/44)
 Stage start      :   0.000
 
     precomp lib/JSON/GLib/Generator.pm6
     Stage start      :   0.000
-    Stage parse      :   2.730
+    Stage parse      :   2.825
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.026
-    Stage mast       :   0.055
-    Stage mbc        :   0.007
+    Stage optimize   :   0.034
+    Stage mast       :   0.048
+    Stage mbc        :   0.010
 R: GLib::Roles::Object
-Stage parse      :   4.521
+Stage parse      :   4.684
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
@@ -565,20 +565,20 @@ Stage start      :   0.000
 
     precomp lib/JSON/GLib/Object.pm6
     Stage start      :   0.000
-    Stage parse      :   2.232
+    Stage parse      :   2.315
     Stage syntaxcheck:   0.000
     Stage ast        :   0.000
-    Stage optimize   :   0.053
-    Stage mast       :   0.075
-    Stage mbc        :   0.007
-Stage parse      :   4.023
+    Stage optimize   :   0.063
+    Stage mast       :   0.118
+    Stage mbc        :   0.017
+Stage parse      :   4.177
 Stage syntaxcheck:   0.000
 Stage ast        :   0.000
 Stage optimize   :   0.002
-Stage mast       :   0.004
-Stage mbc        :   0.000
+Stage mast       :   0.012
+Stage mbc        :   0.001
 Stage moar       :   0.000
 
-real 129.56
-user 156.06
-sys 11.03
+real 133.93
+user 161.27
+sys 10.80
