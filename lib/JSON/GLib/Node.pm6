@@ -298,12 +298,19 @@ class JSON::GLib::Node {
       Nil;
   }
 
-  method get_string is also<get-string> {
+  method get_string
+    is also<
+      get-string
+      Str
+    >
+  {
     json_node_get_string($!jn);
   }
 
   method get_type is also<get-type> {
-    json_node_get_type();
+    state ($n, $t);
+
+    unstable_get_type( self.^name, &json_node_get_type, $n, $t );
   }
 
   proto method get_value (|)
