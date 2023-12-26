@@ -76,6 +76,9 @@ class JSON::GLib::Object {
     is also<JsonObject>
   { $!jo }
 
+  proto method new (|)
+  { * }
+
   multi method new (JsonObject $object) {
     $object ?? self.bless( :$object ) !! Nil;
   }
@@ -84,9 +87,6 @@ class JSON::GLib::Object {
 
     $object ?? self.bless( :$object ) !! Nil;
   }
-
-  method JSON::GLib::Definitions::JsonObject
-  { $!jo }
 
   method add_member (Str() $member_name, JsonNode() $node)
     is also<add-member>

@@ -39,6 +39,12 @@ class JSON::GLib::Array does Positional {
     False;
   }
 
+  proto method new (|)
+  { * }
+
+  multi method new (JSON::GLib::Node $node) {
+    samewith( $node.array );
+  }
   multi method new (JsonArray $array) {
     $array ?? self.bless( :$array ) !! Nil;
   }

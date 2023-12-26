@@ -30,27 +30,23 @@ class JSON::GLib::Node {
     $node ?? self.bless(:$node) !! Nil;
   }
 
-  multi method new ($ar, :$array is required) {
-    self.init_array($ar // JsonArray.new);
+  multi method new ( :$array is required ) {
+    self.init_array(JsonArray);
   }
   multi method new (
     $arr,
     :arr(:$array) is required
   ) {
-    self.init_array(JsonArray);
+    self.init_array($arr);
   }
   method init_array (JsonArray() $array, :$raw = False) is also<init-array> {
     my $n = json_node_alloc();
-    $n = self.bless( node => $n );
-
     return Nil unless $n;
 
-    json_node_init_array($!jn, $array);
+    json_node_init_array($n, $array);
+    return $n if $raw;
 
-    $n ??
-      ($raw ?? $n !! self)
-      !!
-      Nil;
+    self.bless( node => $n );
   }
 
   multi method new(
@@ -79,8 +75,8 @@ class JSON::GLib::Node {
     self.init_double($d);
   }
   method init_double (Num() $value, :$raw = False) is also<init-double> {
-    my gdouble $v = $value;
-    my $node = json_node_init_double($!jn, $v);
+    my gdouble $v    = $value;
+    my         $node = json_node_init_double(JSON::GLib::Node.alloc, $v);
 
     $node ?? self.bless(:$node) !! Nil;
   }
@@ -101,7 +97,7 @@ class JSON::GLib::Node {
   multi method new (:$null is required) {
     self.init-null;
   }
-  method init_null (:$raw = False) is also<init-null> {
+  method init_null (:$raw = False ) is also<init-null> {
     my $node = json_node_init_null( JSON::GLib::Node.alloc );
 
     $node ?? self.bless(:$node) !! Nil;
@@ -122,16 +118,12 @@ class JSON::GLib::Node {
     is also<init-object>
   {
     my $n = json_node_alloc();
-    $n = self.bless( node => $n );
-
     return Nil unless $n;
 
-    json_node_init_array($!jn, $object);
+    json_node_init_object($n, $object);
+    return $n if $raw;
 
-    $n ??
-      ($raw ?? $n !! self)
-      !!
-      Nil;
+    self.bless( node => $n );
   }
 
   multi method new ($s, :str(:$string) is required) {

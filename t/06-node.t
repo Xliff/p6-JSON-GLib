@@ -155,17 +155,20 @@ sub test-node-copy($t, $a = '', $v = Nil) {
 
 sub init-node($v, :$all = False) {
   my $m = do given $v.WHAT {
-    when Nil  { 'null' }
-    when Str  { 'string'  }
-    when Num  { 'double'  }
-    when Bool { 'boolean' }
-    when Int  { 'int'     }
+    when Nil  { 'null'     }
+    when Rat  { 'double'   }
+    when Str  { 'string'   }
+    when Num  { 'double'   }
+    when Bool { 'boolean'  }
+    when Int  { 'int'      }
 
     # default  {  Can be an error condition }
     default { die "Unknown seal type '$_'" }
   }
 
-  my $rv = JSON::GLib::Node."init-{ $m }"($v);
+  my $rv = $m eq 'null'
+    ?? JSON::GLib::Node.init_null
+    !! JSON::GLib::Node."init-{ $m }"($v);
   $all.not ?? $rv !! ($rv, $m);
 }
 
@@ -173,7 +176,7 @@ sub init-node($v, :$all = False) {
   sub test-seal ($v) {
     my ($n, $m) = init-node($v, :all);
 
-    nok $n.is-immutable, "$m node starts off as immutable";
+    nok $n.is-immutable, "$m node starts as mutable";
     $n.seal;
     ok $n.is-immutable, "$m node immutable after .seal()";
   }
@@ -184,29 +187,25 @@ sub init-node($v, :$all = False) {
   test-seal(Nil);
 
   {
-    my $obj = JSON::GLib::Object.new(
-      JSON::GLib::Node.new( :object )
-    );
-    my $n = JSON::GLib::Node.new($obj, :object);
+    my $obj = JSON::GLib::Object.new;
+    my $n   = JSON::GLib::Node.new($obj, :object);
 
-    nok   $n.is-immutable, 'Node starts off immutable';
-    nok $obj.is-immutable, 'Object starts off immutable';
+    nok   $n.is-immutable, 'Node is mutable';
+    nok $obj.is-immutable, 'Object is mutable';
     $n.seal;
-    ok    $n.is-immutable, 'Node is immutable';
-    ok  $obj.is-immutable, 'Object is immutable';
+    ok    $n.is-immutable, 'Node is now immutable';
+    ok  $obj.is-immutable, 'Object is now immutable';
   }
 
   {
-    my $arr = JSON::GLib::Array.new(
-      JSON::GLib::Node.new( :array )
-    );
-    my $n = JSON::GLib::Node.new($arr, :array);
+    my $arr = JSON::GLib::Array.new;
+    my $n   = JSON::GLib::Node.new($arr, :array);
 
-    nok   $n.is-immutable, 'Array Node starts off immutable';
-    nok $arr.is-immutable, 'Array Object starts off immutable';
+    nok   $n.is-immutable, 'Array Node is mutable';
+    nok $arr.is-immutable, 'Array Object is mutable';
     $n.seal;
-    ok    $n.is-immutable, 'Node is immutable';
-    ok  $arr.is-immutable, 'Object is immutable';
+    ok    $n.is-immutable, 'Node is now immutable';
+    ok  $arr.is-immutable, 'Object is now immutable';
   }
 }
 
