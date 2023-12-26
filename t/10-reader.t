@@ -81,7 +81,7 @@ subtest 'Base Array', {
   is  $r.string,             'foo',                            'Element 3 contains the proper value';
   $r.end-element;
 
-  $r.read-element(5);
+  $r.read-element(5),
   $r.is-value,                                                 'Element 5 IS NOT a VALUE type';
   nok $r.is-object,                                            'Element 5 IS NOT an OBJECT type';
   ok  $r.is-array,                                             'Element 5 is an ARRAY type';
@@ -101,7 +101,7 @@ subtest 'Base Array', {
   is  $e.domain,         JSON::GLib::Reader.error,             'ERROR contains the proper domain';
   is  $e.code,           JSON_READER_ERROR_INVALID_INDEX.Int,  'ERROR contains the proper code';
   $r.end-element;
-  my $e = $r.get-error;
+  $e = $r.get-error;
   nok $e,                                                      'ERROR cleared after call to .end-element';
 }
 
