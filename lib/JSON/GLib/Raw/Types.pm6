@@ -6,6 +6,7 @@ use JSON::GLib::Raw::Exports;
 
 unit package JSON::GLib::Raw::Types;
 
+need GLib::Raw::Debug;
 need GLib::Raw::Definitions;
 need GLib::Raw::Enums;
 need GLib::Raw::Exceptions;
