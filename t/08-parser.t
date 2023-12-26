@@ -345,8 +345,8 @@ subtest 'Stream Sync', {
   isa-ok $p, JSON::GLib::Parser, 'Parser created successfully';
 
   my $fp = $*CWD.add('t').add('stream-load.json');
-  my $f = GIO::Roles::GFile.new_for_path($fp);
-  my $s = $f.read;
+  my $f  = GIO::File.new_for_path($fp);
+  my $s  = $f.read;
   if $ERROR {
     say "Error! -- { $ERROR.message }";
     exit 1;
@@ -392,7 +392,7 @@ subtest 'Stream Sync', {
     isa-ok $p,                JSON::GLib::Parser,  'Parser created successfully';
 
     my $fp = $*CWD.add('t').add('stream-load.json');
-    my $f = GIO::Roles::GFile.new_for_path($fp);
+    my $f = GIO::File.new_for_path($fp);
     my $s = $f.read;
     nok $ERROR,                                    'No error detected upon load';
     ok $s,                                         'Stream initialized, successfully';
