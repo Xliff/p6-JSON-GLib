@@ -116,9 +116,9 @@ class JSON::GLib::Variant {
 
 }
 
-sub GVariant-to-Raku (GVariant $v) is export {
+sub GVariant-to-Raku (GVariant() $v) is export {
   (
-    GLib::Variant.new($v) but JSON::GLib::Serialize::Variant
+    GLib::Variant.new($v) but JSON::GLib::Variant::Serialize
   ).json-node.Raku
 }
 
