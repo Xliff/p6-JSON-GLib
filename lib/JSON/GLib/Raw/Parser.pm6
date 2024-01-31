@@ -6,6 +6,7 @@ use GLib::Raw::Definitions;
 use GLib::Raw::Object;
 use GLib::Raw::Structs;
 use GIO::Raw::Definitions;
+use GIO::Raw::Structs;
 use JSON::GLib::Raw::Definitions;
 
 unit package JSON::GLib::Raw::Parser;
