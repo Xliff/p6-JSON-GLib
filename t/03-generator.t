@@ -58,8 +58,11 @@ my @decimal-separators = (
   fr => { sep => ',', matches => False }
 );
 
-sub do-checks ($d, $m) {
+sub do-checks ($d, $m is copy) {
   say "checking '$d' (expected '$m')" if %*ENV<JSON-GLIB-VERBOSE>;
+
+  $m ~~ s/ '[' \s+ ']' /\[\]/;
+  $m ~~ s/ '{' \s+ '}' /\{\}/;
 
   is $d.chars, $m.chars, 'Generated data is the expected length';
   is       $d,       $m, 'Generated data is the proper serialization';

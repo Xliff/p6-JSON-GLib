@@ -22,6 +22,7 @@ class JSON::GLib::Parser {
   submethod TWEAK                    { self.roleInit-Object }
 
   method JSON::GLib::Definitions::JsonParser
+    is also<JsonParser>
   { $!jp }
 
   multi method new (JsonParser $parser) {
@@ -211,16 +212,16 @@ class JSON::GLib::Parser {
 
   multi method load_from_stream_async (
     GInputStream() $stream,
-    &callback,
-    gpointer $user_data = gpointer
+                   &callback,
+    gpointer       $user_data = gpointer
   ) {
     samewith($stream, GCancellable, &callback, $user_data);
   }
   multi method load_from_stream_async (
     GInputStream() $stream,
     GCancellable() $cancellable,
-    &callback,
-    gpointer $user_data = gpointer
+                   &callback,
+    gpointer       $user_data = gpointer
   ) {
     json_parser_load_from_stream_async(
       $!jp,
@@ -232,7 +233,7 @@ class JSON::GLib::Parser {
   }
 
   method load_from_stream_finish (
-    GAsyncResult() $result,
+    GAsyncResult()          $result,
     CArray[Pointer[GError]] $error = gerror
   )
     is also<load-from-stream-finish>

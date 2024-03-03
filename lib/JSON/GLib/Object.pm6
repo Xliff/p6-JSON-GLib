@@ -7,6 +7,8 @@ use NativeCall;
 use JSON::GLib::Raw::Types;
 use JSON::GLib::Raw::ObjectNodeArray;
 
+use GLib::GList;
+
 use JSON::GLib::Array;
 use JSON::GLib::Node;
 
@@ -70,7 +72,9 @@ class JSON::GLib::Object::Iter {
 class JSON::GLib::Object {
   has JsonObject $!jo;
 
-  submethod BUILD ( :object(:$!jo) ) {  }
+  submethod BUILD ( :$object ) {
+    $!jo = $object if $object;
+  }
 
   method JSON::GLib::Raw::Definitions::JsonObject
     is also<JsonObject>
@@ -107,9 +111,17 @@ class JSON::GLib::Object {
     so json_object_equal($!jo, $b);
   }
 
-  method foreach_member (&func, gpointer $data = gpointer)
+  method foreach_member (&func, gpointer $data = gpointer, :$raw = False)
     is also<foreach-member>
   {
+    my &new_func;
+    unless $raw {
+      &new_func = sub (*@a) {
+        @a.head = self;
+        @a[2]   = JSON::GLib::Node.new( @a[2] );
+        &func( |@a );
+      }
+    }
     json_object_foreach_member($!jo, &func, $data);
   }
 
@@ -145,7 +157,28 @@ class JSON::GLib::Object {
       Nil;
   }
 
-  method get_members (:$glist = False, :$raw = False) is also<get-members> {
+  method get_member_names
+    is also<
+      get-member-names
+      member_names
+      member-names
+    >
+  {
+    my @names;
+
+    self.foreach-member(
+      :raw,
+      sub (*@a) { @names.push: @a[1]  }
+    );
+    @names;
+  }
+
+  method get_members (:$glist = False, :$raw = False)
+    is also<
+      get-members
+      members
+    >
+  {
     my $ml = json_object_get_members($!jo);
 
     return Nil unless $ml;

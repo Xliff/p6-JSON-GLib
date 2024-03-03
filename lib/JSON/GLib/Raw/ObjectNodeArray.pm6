@@ -455,8 +455,8 @@ sub json_object_equal (JsonObject $a, JsonObject $b)
 
 sub json_object_foreach_member (
   JsonObject $object,
-  &func (JsonObject, Str, JsonNode, gpointer),
-  gpointer $data
+             &func (JsonObject, Str, JsonNode, gpointer),
+  gpointer   $data
 )
   is native(json-glib)
   is export

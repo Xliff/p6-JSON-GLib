@@ -8,7 +8,7 @@
     "meta-version": "0",
     "license": "GPL-3.0",
     "source-url": "https://github.com/Xliff/p6-JSON-GLib.git",
-                                "provides": {
+                                                            "provides": {
     "JSON::GLib::Raw::Definitions": "lib/JSON/GLib/Raw/Definitions.pm6",
     "JSON::GLib::Raw::Generator": "lib/JSON/GLib/Raw/Generator.pm6",
     "JSON::GLib::Raw::ObjectNodeArray": "lib/JSON/GLib/Raw/ObjectNodeArray.pm6",

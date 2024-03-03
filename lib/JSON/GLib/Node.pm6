@@ -272,11 +272,12 @@ class JSON::GLib::Node {
     JsonNodeTypeEnum( json_node_get_node_type($!jn) );
   }
 
-  method get_object (:$raw = False) is also<get-object> {
-    my $o = json_node_get_object($!jn);
+  method get_object ( :$raw = False ) is also<get-object> {
+    my $o   = json_node_get_object($!jn);
+    my \jgo = ::('JSON::GLib::Object');
 
     $o ??
-      ( $raw ?? $o !! ::('JSON::GLib::Object').new($o) )
+      ( $raw ?? $o !! jgo.new($o) )
       !!
       Nil;
   }

@@ -155,7 +155,7 @@ sub gvariant-to-json ($test) {
 
   my $jd = JSON::GLib::Variant.serialize-data($v);
   is $jd.chars, $test<jdata>.chars, 'Serialized data is the proper length';
-  is       $jd,       $test<jdata>, 'Serialized data matches expected result';
+  is       $jd, $test<jdata>,       'Serialized data matches expected result';
 }
 
 sub json-to-gvariant ($test) {

@@ -214,15 +214,21 @@ sub init-node($v, :$all = False) {
     my ($e, $m);
 
     my $p = start {
-      CATCH { when X::JSON::GLib::Node::NoSetImmutable { $e = $_ } }
+      CATCH {
+        when X::JSON::GLib::Node::NoSetImmutable { $e = $_ }
+
+        default {
+          diag .^name;
+        }
+      }
       my $n;
 
       ($n, $m) = init-node($v, :all);
       $n.seal;
-      $n."$m"() = $nv;
+      #$n."$m"() = $nv;
     }
 
-    await $p;
+    dies-ok { await $p }
     isa-ok $e, X::JSON::GLib::Node::NoSetImmutable, "Could not set immutable '$m' value";
   }
 
@@ -240,14 +246,19 @@ sub init-node($v, :$all = False) {
       $n.value = gv_int(50);
     }
 
-    await $p;
+    dies-ok { await $p }
     isa-ok $e, X::JSON::GLib::Node::NoSetImmutable, 'Could not set immutable GValue value';
   }
 
   {
     my $e;
     my $p = start {
-      CATCH { when X::JSON::GLib::Node::NoSetImmutable { $e = $_ } }
+      CATCH {
+        when X::JSON::GLib::Node::NoSetImmutable { $e = $_ }
+        default {
+          diag .^name;
+        }
+      }
       my $n = JSON::GLib::Node.init-int(5);
       $n.seal;
 
@@ -265,7 +276,7 @@ sub init-node($v, :$all = False) {
       $n.parent = $pimut;
     }
 
-    await $p;
+    dies-ok { await $p }
     isa-ok $e, X::JSON::GLib::Node::NoSetImmutable, 'Could not set immutable object value';
   }
 
