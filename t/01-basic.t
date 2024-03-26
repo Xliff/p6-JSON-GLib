@@ -2,6 +2,8 @@ use v6.c;
 
 use Test;
 
+plan 9;
+
 lives-ok { use JSON::GLib::Array       }, 'JSON::GLib::Array loads properly';
 lives-ok { use JSON::GLib::Builder     }, 'JSON::GLib::Builder loads properly';
 lives-ok { use JSON::GLib::Generator   }, 'JSON::GLib::Generator loads properly';
