@@ -7,11 +7,15 @@ use JSON::GLib::Raw::ObjectNodeArray;
 
 use GLib::Value;
 
+use GLib::Roles::Implementor;
+
 class X::JSON::GLib::Node::NoSetImmutable is Exception is export {
   method message { 'Cannot alter an immutable JSON::GLib::Node' }
 }
 
 class JSON::GLib::Node {
+  also does GLib::Roles::Implementor;
+
   has JsonNode $!jn;
 
   submethod BUILD ( :node(:$!jn) ) { }
