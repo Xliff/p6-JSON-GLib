@@ -8,6 +8,8 @@ use JSON::GLib::Array;
 use JSON::GLib::Node;
 use JSON::GLib::Object;
 
+plan 4;
+
 subtest 'Empty Array', {
   my $a = JSON::GLib::Array.new;
 

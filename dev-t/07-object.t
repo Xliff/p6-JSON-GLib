@@ -7,6 +7,8 @@ use JSON::GLib::Raw::Types;
 use JSON::GLib::Node;
 use JSON::GLib::Object;
 
+plan 7;
+
 subtest 'Empty Object', {
   my $o = JSON::GLib::Object.new;
 

@@ -8,6 +8,8 @@ use GLib::Value;
 use JSON::GLib::Node;
 use JSON::GLib::Object;
 
+plan 76;
+
 my $n = JSON::GLib::Node.new(JSON_NODE_NULL);
 my $c = $n.copy;
 

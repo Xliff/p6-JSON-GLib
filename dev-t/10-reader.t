@@ -7,6 +7,8 @@ use JSON::GLib::Raw::Types;
 use JSON::GLib::Parser;
 use JSON::GLib::Reader;
 
+plan 4;
+
 my $base_array   = '[ 0, true, null, "foo", 3.14, [ false ], { "bar" : 42 } ]';
 my $base_object  = '{ "text" : "hello, world!", "foo" : null, "blah" : 47, "double" : 42.47 }';
 my $reader_level = ' { "list": { "181195771": { "given_url": "http://www.gnome.org/json-glib-test" } } }';

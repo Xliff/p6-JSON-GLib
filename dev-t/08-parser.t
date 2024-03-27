@@ -14,6 +14,8 @@ use JSON::GLib::Parser;
 
 use GIO::Roles::GFile;
 
+plan 12;
+
 my $empty-string = '';
 my $empty-array  = '[ ]';
 my $empty-object = '{ }';

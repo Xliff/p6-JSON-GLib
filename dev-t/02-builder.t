@@ -7,6 +7,8 @@ use JSON::GLib::Raw::Types;
 use JSON::GLib::Builder;
 use JSON::GLib::Generator;
 
+plan 3;
+
 my $complex-object =
 '{'                     ~
   '"depth1":['          ~

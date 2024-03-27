@@ -8,6 +8,8 @@ use JSON::GLib::Generator;
 use JSON::GLib::Parser;
 use JSON::GLib::Path;
 
+plan 21;
+
 my $json = q:to/JSON/;
   {
     "store": {

@@ -6,6 +6,8 @@ use JSON::GLib::Raw::Types;
 
 use JSON::GLib::Parser;
 
+plan 84;
+
 sub test-specific-invalidity ($j, $c) {
   my $parser = JSON::GLib::Parser.new;
   isa-ok $parser, JSON::GLib::Parser, 'JSON::GLib::Parser can be instantiated';

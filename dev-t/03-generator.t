@@ -4,13 +4,15 @@ use Test;
 
 use JSON::GLib::Raw::Types;
 
+use JSON::GLib::Object;
 use JSON::GLib::Array;
 use JSON::GLib::Generator;
 use JSON::GLib::Node;
-use JSON::GLib::Object;
 use JSON::GLib::Parser;
 
 constant LC_NUMERIC = 1;
+
+plan 10;
 
 my  $empty-array  = '[]';
 my  $empty-object = '{}';

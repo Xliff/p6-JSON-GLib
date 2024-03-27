@@ -7,6 +7,8 @@ use JSON::GLib::Raw::Types;
 use GLib::Variant;
 use JSON::GLib::Variant;
 
+plan 63;
+
 my @two-way-test-cases = (
   { name => '/boolean',               sig => '(b)',     vdata => '(true,)',                                           jdata => '[true]'                      },
   { name => "/byte",                  sig => "(y)",     vdata => "(byte 0xff,)",                                      jdata => "[255]"                       },
@@ -148,10 +150,12 @@ my @json_to_gvariant_test_cases = (
 );
 
 sub gvariant-to-json ($test) {
-  my $v = GLib::Variant.parse($test<sig>, $test<vdata>);
-  #my $d = JSON::GLib::Variant.serialize($v);
+  my $v = GLib::Variant.parse($test<sig>, $test<vdata>)
+    but JSON::GLib::Variant::Serialize;
 
-  #ok $d, 'Variant data can be serialized';
+  # cw: Does not work!
+  my $d = $v.serialize;
+  ok $d, 'Variant data can be serialized';
 
   my $jd = JSON::GLib::Variant.serialize-data($v);
   is $jd.chars, $test<jdata>.chars, 'Serialized data is the proper length';
