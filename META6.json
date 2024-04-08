@@ -3,7 +3,7 @@
         "p6-GLib",
         "p6-GIO"
     ],
-    "description": "Perl6 library bindings for GNOME's JSON-GLib library",
+    "description": "Raku library bindings for GNOME's JSON-GLib library",
     "version": "r0.1",
     "meta-version": "0",
     "license": "GPL-3.0",
