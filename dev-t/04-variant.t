@@ -7,7 +7,7 @@ use JSON::GLib::Raw::Types;
 use GLib::Variant;
 use JSON::GLib::Variant;
 
-plan 63;
+plan 89;
 
 my @two-way-test-cases = (
   { name => '/boolean',               sig => '(b)',     vdata => '(true,)',                                           jdata => '[true]'                      },
