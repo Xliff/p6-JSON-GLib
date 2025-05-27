@@ -8,7 +8,11 @@ use GLib::Roles::Pointers;
 
 unit package JSON::GLib::Raw::Definitions;
 
-my constant forced = 210;
+my constant forced = 215;
+
+sub Json-Distribution is export is DistributionProvider {
+  $?DISTRIBUTION;
+}
 
 constant json-glib is export = 'json-glib-1.0',v0;
 
