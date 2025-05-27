@@ -18,17 +18,20 @@ class JSON::GLib::Node {
 
   has JsonNode $!jn;
 
-  submethod BUILD ( :node(:$!jn) ) { }
+  submethod BUILD ( :$node ) {
+    $!jn = $node if $node;
+  }
 
   method JSON::GLib::Raw::Definitions::JsonNode
     is also<JsonNode>
   { $!jn }
 
-  multi method new (JsonNode $node) {
+  multi method new (JsonNode $node, :$ref = True) {
     $node ?? self.bless(:$node) !! Nil;
   }
   multi method new (Int() $type = JSON_NODE_NULL) {
     my JsonNodeType $t = $type;
+
     my $node = json_node_new($t);
 
     $node ?? self.bless(:$node) !! Nil;
@@ -67,6 +70,7 @@ class JSON::GLib::Node {
     >
   {
     my gboolean $v = $value.so.Int;
+
     my $node = json_node_init_boolean(JSON::GLib::Node.alloc, $v);
 
     $node ?? self.bless(:$node) !! Nil;
@@ -79,8 +83,9 @@ class JSON::GLib::Node {
     self.init_double($d);
   }
   method init_double (Num() $value, :$raw = False) is also<init-double> {
-    my gdouble $v    = $value;
-    my         $node = json_node_init_double(JSON::GLib::Node.alloc, $v);
+    my gdouble $v = $value;
+
+    my $node = json_node_init_double(JSON::GLib::Node.alloc, $v);
 
     $node ?? self.bless(:$node) !! Nil;
   }
@@ -93,6 +98,7 @@ class JSON::GLib::Node {
   }
   method init_int (Int() $value, :$raw = False) is also<init-int> {
     my gint64 $v = $value;
+
     my $node = json_node_init_int(JSON::GLib::Node.alloc, $v);
 
     $node ?? self.bless(:$node) !! Nil;
@@ -277,8 +283,10 @@ class JSON::GLib::Node {
   }
 
   method get_object ( :$raw = False ) is also<get-object> {
-    my $o   = json_node_get_object($!jn);
+    my  $o  = json_node_get_object($!jn);
     my \jgo = ::('JSON::GLib::Object');
+
+    # cw: -YYY- Should sanity check the existence of <jgo>
 
     $o ??
       ( $raw ?? $o !! jgo.new($o) )
@@ -286,7 +294,7 @@ class JSON::GLib::Node {
       Nil;
   }
 
-  method get_parent (:$raw = False) is also<get-parent> {
+  method get_parent ( :$raw = False ) is also<get-parent> {
     my $p = json_node_get_parent($!jn);
 
     $p ??
@@ -314,17 +322,18 @@ class JSON::GLib::Node {
     is also<get-value>
   { * }
 
-  multi method get_value (:$raw = False) {
+  multi method get_value ( :$raw = False ) {
     my $v = GValue.new;
-    samewith($v);
+
+    samewith($v, :$raw);
+  }
+  multi method get_value (GValue() $value, :$raw = False)  {
+    my $v = json_node_get_value($!jn, $value);
 
     $v ??
       ( $raw ?? $v !! GLib::Value.new($v) )
       !!
       Nil;
-  }
-  multi method get_value (GValue() $value)  {
-    json_node_get_value($!jn, $value);
   }
 
   method get_value_type
@@ -419,10 +428,18 @@ class JSON::GLib::Node {
   }
 
   method set_string (Str() $value) is also<set-string> {
+    # Avoids the C-exception at the cost of speed... which beats a dead
+    # program!
+    X::JSON::GLib::Node::NoSetImmutable.throw if self.is_immutable;
+
     json_node_set_string($!jn, $value);
   }
 
   method set_value (GValue() $value) is also<set-value> {
+    # Avoids the C-exception at the cost of speed... which beats a dead
+    # program!
+    X::JSON::GLib::Node::NoSetImmutable.throw if self.is_immutable;
+
     json_node_set_value($!jn, $value);
   }
 
