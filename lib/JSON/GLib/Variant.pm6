@@ -13,6 +13,7 @@ use JSON::GLib::Node;
 use GLib::Roles::StaticClass;
 
 role JSON::GLib::Variant::Deserialize {
+  
   method deserialize (
     Str()                    $signature,
     CArray[Pointer[GError]]  $error      = gerror,
@@ -73,19 +74,19 @@ class JSON::GLib::Variant {
   { * }
 
   multi method deserialize_data (
-    Str() $json,
-    Str() $signature,
-    CArray[Pointer[GError]] $error = gerror,
-    :$raw = False
+    Str()                    $json,
+    Str()                    $signature,
+    CArray[Pointer[GError]] :$error      = gerror,
+                            :$raw        = False
   ) {
-    samewith($json, -1, $signature, $error, :$raw);
+    samewith($json, -1, $signature, :$error, :$raw);
   }
   multi method deserialize_data (
-    Str()                   $json,
-    Int()                   $length,
-    Str()                   $signature,
-    CArray[Pointer[GError]] $error      = gerror,
-    :$raw = False
+    Str()                    $json,
+    Int()                    $length,
+    Str()                    $signature,
+    CArray[Pointer[GError]] :$error      = gerror,
+                            :$raw        = False
   ) {
     my gssize $l = $length;
 
@@ -120,6 +121,31 @@ sub GVariant-to-Raku (GVariant() $v) is export {
   (
     GLib::Variant.new($v) but JSON::GLib::Variant::Serialize
   ).json-node.Raku
+}
+
+class GLib::Variant::JSON is GLib::Variant {
+  method to-json {
+    JSON::GLib::Variant.serialize-data(self);
+  }
+
+  method from-json ($s) {
+    JSON::GLib::Variant.deserialize-data($s);
+  }
+}
+
+sub returnVariant (
+   $v,
+  :$raw     = False,
+  :$variant = False,
+  :$json    = False
+)
+  is export
+{
+  my $o = propReturnObject($v, $raw, |GLib::Variant.getTypePair);
+  return $o if $variant;
+  $o = JSON::GLib::Variant.serialize-data($o);
+  return $o if $json;
+  from-json($o);
 }
 
 ### /usr/include/json-glib-1.0/json-glib/json-gvariant.h
