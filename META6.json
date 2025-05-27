@@ -1,14 +1,19 @@
 {
-    "depends": [
-        "GLib",
-        "GIO"
-    ],
-    "description": "Perl6 library bindings for GNOME's JSON-GLib library",
-    "version": "r0.1",
-    "meta-version": "0",
-    "license": "GPL-3.0",
-    "source-url": "https://github.com/Xliff/p6-JSON-GLib.git",
-                                                                            "provides": {
+  "authors": [
+    "clifton.wood@gmail.com"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
+    "GLib",
+    "GIO"
+  ],
+  "description": "Perl6 library bindings for GNOME's JSON-GLib library",
+  "license": "GPL-3.0",
+  "meta-version": "0",
+  "name": "JSON::GLib::Node",
+  "perl": "6.c",
+      "provides": {
       "JSON::GLib::Raw::Definitions"       :  "lib/JSON/GLib/Raw/Definitions.pm6"      ,
       "JSON::GLib::Raw::Generator"         :  "lib/JSON/GLib/Raw/Generator.pm6"        ,
       "JSON::GLib::Raw::ObjectNodeArray"   :  "lib/JSON/GLib/Raw/ObjectNodeArray.pm6"  ,
@@ -29,10 +34,16 @@
       "JSON::GLib::Generator"              :  "lib/JSON/GLib/Generator.pm6"            ,
       "JSON::GLib::Object"                 :  "lib/JSON/GLib/Object.pm6"               
     },
-    "name": "JSON-GLib",
-    "perl": "6.c",
-    "test-depends": ["Test::META"],
-    "build-depends": [ ],
-    "support": {"source": null},
-    "authors": ["clifton.wood@gmail.com"]
+  "resources": [
+  ],
+  "source-url": "https://github.com/Xliff/p6-JSON-GLib.git",
+  "support": {
+    "source": null
+  },
+  "tags": [
+  ],
+  "test-depends": [
+    "Test::META"
+  ],
+  "version": "r0.1"
 }
